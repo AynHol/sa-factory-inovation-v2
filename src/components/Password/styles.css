@@ -1,0 +1,29 @@
+.password {
+    display: flex;
+    gap: 10px;
+}
+
+.password input {
+    width: 100%;
+}
+
+.password button {
+    border: none;
+    background-color: transparent;
+}
+
+.button {
+    color: #000;
+}
+
+.button:hover {
+    color: #00875f;
+}
+
+.button-active {
+    color: #00875f;
+}
+
+.button-active:hover {
+    color: #000;
+}

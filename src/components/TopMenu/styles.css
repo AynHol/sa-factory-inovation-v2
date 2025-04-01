@@ -1,0 +1,60 @@
+.body {
+    background-color: #333630;
+    display: flex;
+    width: 100vw;
+}
+
+.container {
+    width: 98vw;
+    display: flex;
+    background-color: #333630;
+    margin: auto;
+}
+
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.item:hover {
+    background-color: #333;
+}
+
+.item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding: 8px;
+    background-color: #333630;
+    text-decoration: none;
+}
+
+.item svg {
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    margin-left: 20px;
+}
+
+.item span {
+    padding: 20px;
+    font-size: 24px;
+    color: #fff;
+}
+
+
+.selected {
+    background-color: #fff;
+}
+
+.selected span {
+    color: #000;
+}
+
+.selected svg {
+    color: #666;
+}

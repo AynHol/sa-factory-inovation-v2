@@ -1,8 +1,10 @@
 import Image from "next/image";
 import "./styles.css";
-import carFactory from "@/assets/factory.jpg"
+import carFactory from "@/assets/factory.jpg";
+import Link from "next/link";
+import Password from "@/components/Password";
 
-export default function Home() {
+export default function Login() {
     return (
         <div className="body">
             <div className="main">
@@ -16,12 +18,14 @@ export default function Home() {
                     </div>
                     <div className="inputs">
                         <input type="text" placeholder="Email" />
-                        <input type="text" placeholder="Password" />
+                        <Password placeholder="Password" />
                     </div>
                     <button className="login-button">Log in</button>
                     <div className="cadastro">
                         <p>Não tem uma conta?</p>
-                        <button>Cadastrar-se</button>
+                        <Link href="/signup" className="link">
+                            Cadastrar-se
+                        </Link>
                     </div>
                 </div>
                 <Image src={carFactory} alt="Car Factory" className="car-factory" />
