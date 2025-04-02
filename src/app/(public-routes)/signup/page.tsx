@@ -3,21 +3,25 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 import carFactory from "@/assets/factory.jpg";
 import Link from "next/link";
-import Password from "@/components/Password";
 import { v4 as uuid } from "uuid";
 import { FormEvent, useState } from "react";
 import axios from "axios";
-
-type Profile = {
-    id: string;
-    name: string;
-    email: string;
-    password: string;
-};
+import { PiEye } from "react-icons/pi";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [inputType, setInputType] = useState("password");
+    const [toggle, setToggle] = useState(styles.button);
+
+    const toggleInput = () => {
+        setInputType(inputType === "text" ? "password" : "text");
+        setToggle(toggle === styles.button ? styles.button_active : styles.button);
+    };
+
+    const router = useRouter();
 
     async function handleCreateProfile(event: FormEvent) {
         event.preventDefault();
@@ -25,9 +29,10 @@ export default function SignUp() {
             id: uuid(),
             name: name,
             email: email,
-            password: "123",
+            password: password,
         };
         await axios.post("http://localhost:5500/profiles", person);
+        router.replace("/dashboard");
     }
 
     return (
@@ -55,10 +60,27 @@ export default function SignUp() {
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
                         />
-                        <Password placeholder="Password" />
-                        <Password placeholder="Confirmar Password" />
+                        <div className={styles.password}>
+                            <input
+                                type={inputType}
+                                placeholder="Password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                            />
+                            <button
+                                className={styles.eye_button}
+                                type="button"
+                                onClick={toggleInput}
+                            >
+                                <PiEye size={24} className={toggle} />
+                            </button>
+                        </div>
                     </div>
-                    <button className={styles.signup_button} type="submit">
+                    <button
+                        className={styles.signup_button}
+                        type="submit"
+                        disabled={!email || !name || !password}
+                    >
                         Cadastrar
                     </button>
                     <div className={styles.login}>

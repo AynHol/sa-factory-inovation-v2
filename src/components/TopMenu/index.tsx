@@ -1,17 +1,19 @@
 "use client";
 import Link from "next/link";
-import "./styles.css";
+import styles from "./styles.module.css";
 import { usePathname } from "next/navigation";
 import { PiClipboard, PiFactory, PiHouseLine, PiWarehouse, PiWrench } from "react-icons/pi";
+import { useState } from "react";
 
 export default function TopMenu() {
     const pathName = usePathname();
+    const [show, setShow] = useState(false);
 
     const itens = [
         {
             label: "Home",
             page: "/dashboard",
-            icon: <PiHouseLine/>,
+            icon: <PiHouseLine />,
         },
         {
             label: "Manutenção",
@@ -35,20 +37,30 @@ export default function TopMenu() {
         },
     ];
 
+    const openGui = () => {
+        event?.preventDefault()
+        setShow(true)
+    }
+
     return (
-        <div className="body">
-            <div className="container">
-                <div className="content">
+        <div className={styles.body}>
+            <div className={styles.container}>
+                <div className={styles.content}>
                     {itens.map((item) => (
                         <Link
                             key={item.label}
-                            className={`item ${pathName === item.page ? "selected" : ""}`}
+                            className={`${styles.item} ${
+                                pathName === item.page ? styles.selected : ""
+                            }`}
                             href={item.page}
                         >
                             {item.icon}
                             <span>{item.label}</span>
                         </Link>
                     ))}
+                </div>
+                <div className={styles.profile} >
+                    <img src="https://github.com/aynhol.png" />
                 </div>
             </div>
         </div>

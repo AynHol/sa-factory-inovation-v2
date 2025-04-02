@@ -5,7 +5,7 @@
 }
 
 .container {
-    width: 98vw;
+    width: 99vw;
     display: flex;
     background-color: #333630;
     margin: auto;
@@ -24,6 +24,7 @@
 
 .item {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -48,7 +49,7 @@
 
 
 .selected {
-    background-color: #fff;
+    background-color: #E5E6F0;
 }
 
 .selected span {
@@ -57,4 +58,18 @@
 
 .selected svg {
     color: #666;
+}
+
+.profile {
+    margin-left: 1vw;
+    display: flex;
+    align-items: center;
+}
+
+.profile img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 16px;
+    cursor: pointer;
 }
