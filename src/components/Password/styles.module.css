@@ -20,10 +20,10 @@
     color: #00875f;
 }
 
-.button-active {
+.button_active {
     color: #00875f;
 }
 
-.button-active:hover {
+.button_active:hover {
     color: #000;
 }
