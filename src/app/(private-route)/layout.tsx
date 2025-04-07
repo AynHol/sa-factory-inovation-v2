@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function PrivateLayout({ children }: { children: React.ReactNode }) {
-    const [hidden, setHidden] = useState(styles.extra);
+    const [hidden, setHidden] = useState(styles.s_extra);
 
     const router = useRouter();
 

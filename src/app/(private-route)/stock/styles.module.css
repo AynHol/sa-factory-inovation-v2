@@ -1,6 +1,78 @@
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 88.79vh;
+}
+
 .box {
     background-color: #fff;
     display: flex;
     flex-direction: column;
+    border-radius: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 16px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    margin-bottom: 16px;
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+.header div {
+    display: flex;
+    gap: 16px;
+}
+
+.header button {
+    border: none;
+}
+
+.del,
+.fil {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: transparent;
+}
+
+.plus {
+    background-color: #04AA6D;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table td,
+.table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.table tr {
+    text-align: center;
+}
+
+.table tr:hover {
+    background-color: #ddd;
+}
+
+.table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #fff;
 }

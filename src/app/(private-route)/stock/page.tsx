@@ -1,33 +1,92 @@
-import styles from "./styles.module.css"
+"use client"
+import { PiFolders, PiFunnelSimple, PiPlus, PiTrash } from "react-icons/pi";
+import styles from "./styles.module.css";
+import { useRouter } from "next/navigation";
 
 export default function Stock() {
+    const router = useRouter()
+
+    const pageCreateStock = () => {
+        router.replace("/stockcreate")
+    }
+
     return (
-        <div className={styles.box}>
-            <div className={styles.header}>
-                <h1>Lista Estoque</h1>
-                <button>Deletar</button>
-                <button>Filtro</button>
-                <button>+</button>
-            </div>
-            <div className={styles.table}>
-                <div className={styles.icons}>
-                    <span>icon</span>
+        <div className={styles.body}>
+            <div className={styles.box}>
+                <div className={styles.header}>
+                    <h1>Lista Estoque</h1>
+                    <div>
+                        <button className={styles.del}>
+                            <PiTrash size={18} />
+                            Deletar
+                        </button>
+                        <button className={styles.fil}>
+                            <PiFunnelSimple size={18} />
+                            Filtro
+                        </button>
+                        <button className={styles.plus} onClick={pageCreateStock}>
+                            <PiPlus size={18} />
+                        </button>
+                    </div>
                 </div>
-                <div className={styles.icons}>
-                    <p>Pneu</p>
-                </div>
-                <div className={styles.fabricante}>
-                    <p>Fabricante</p>
-                </div>
-                <div className={styles.quantidade}>
-                    <p>18.354</p>
-                </div>
-                <div className={styles.description}>
-                    <p>É um pneu</p>
-                </div>
-                <div className={styles.options}>
-                    <></>
-                </div>
+                <table className={styles.table}>
+                    <tbody>
+                        <tr>
+                            <th>
+                                <PiFolders size={18}/>
+                            </th>
+                            <th>Nome</th>
+                            <th>Fabricante</th>
+                            <th>Quantidade</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Icon</td>
+                            <td>Pneu</td>
+                            <td>Fabrica</td>
+                            <td>18300</td>
+                            <td>É um pneu</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Icon</td>
+                            <td>Pneu</td>
+                            <td>Fabrica</td>
+                            <td>18300</td>
+                            <td>É um pneu</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Icon</td>
+                            <td>Pneu</td>
+                            <td>Fabrica</td>
+                            <td>18300</td>
+                            <td>É um pneu</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Icon</td>
+                            <td>Pneu</td>
+                            <td>Fabrica</td>
+                            <td>18300</td>
+                            <td>É um pneu</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Icon</td>
+                            <td>Pneu</td>
+                            <td>Fabrica</td>
+                            <td>18300</td>
+                            <td>É um pneu</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     );
