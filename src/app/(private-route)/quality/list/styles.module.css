@@ -1,0 +1,60 @@
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 16px;
+    gap: 18px;
+}
+
+.header {
+    text-align: center;
+    border-bottom: 1px solid #464444;
+    padding: 6px;
+}
+
+.lista {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.li {
+    width: 90%;
+    padding: 4px;
+}
+
+.li:not(:last-child) {
+    border-bottom: 1px solid #464444;
+}
+
+.li div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.li div button {
+    background-color: #04AA6D;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.li div button:hover {
+    background-color: #058556;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}

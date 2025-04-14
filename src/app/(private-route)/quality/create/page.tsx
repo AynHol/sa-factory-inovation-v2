@@ -32,7 +32,7 @@ import {
     WindowOutlined,
 } from "@mui/icons-material";
 
-export default function Quality() {
+export default function QualityCreate() {
     return (
         <div className={styles.body}>
             <div className={styles.container}>
