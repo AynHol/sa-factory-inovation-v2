@@ -15,27 +15,6 @@
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
 }
 
-.selection {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-}
-
-.selection div {
-    display: flex;
-    align-items: center;
-}
-
-.form h2 {
-    margin-bottom: 10px;
-}
-
-.product {
-    display: flex;
-    padding: 8px;
-    gap: 32px;
-}
-
 .button {
     display: flex;
     justify-content: center;
@@ -46,4 +25,33 @@
     display: flex;
     padding: 8px;
     gap: 32px;
+}
+
+.div1 {
+    gap: 55px;
+}
+
+.lies {
+    margin-top: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nolies {
+    display: none;
+}
+
+.secondlies {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1b5e20;
+    font-weight: bold;
+}
+
+.nosecondlies {
+    display: none;
 }

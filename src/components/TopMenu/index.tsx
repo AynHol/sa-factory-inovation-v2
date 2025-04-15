@@ -10,35 +10,35 @@ export default function TopMenu() {
     const itens = [
         {
             label: "Home",
+            pagename: "/dashboard",
             page: "/dashboard",
             icon: <PiHouseLine />,
         },
         {
             label: "Manutenção",
+            pagename: "/maintenance",
             page: "/maintenance",
             icon: <PiWrench />,
         },
         {
             label: "Produção",
+            pagename: "/production",
             page: "/production",
             icon: <PiFactory />,
         },
         {
             label: "Estoque",
+            pagename: "/stock/",
             page: "/stock",
             icon: <PiWarehouse />,
         },
         {
             label: "Qualidade",
+            pagename: "/quality",
             page: "/quality",
             icon: <PiClipboard />,
         },
     ];
-
-    const openGui = () => {
-        event?.preventDefault()
-        
-    }
 
     return (
         <div className={styles.body}>
@@ -48,7 +48,7 @@ export default function TopMenu() {
                         <Link
                             key={item.label}
                             className={`${styles.item} ${
-                                pathName === item.page ? styles.selected : ""
+                                pathName === item.pagename ? styles.selected : ""
                             }`}
                             href={item.page}
                         >
@@ -57,7 +57,7 @@ export default function TopMenu() {
                         </Link>
                     ))}
                 </div>
-                <div className={styles.profile} >
+                <div className={styles.profile}>
                     <img src="https://github.com/aynhol.png" />
                 </div>
             </div>
