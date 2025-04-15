@@ -1,0 +1,53 @@
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 16px;
+    gap: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+.h1R {
+    text-align: center;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.infoSpan {
+    font-weight: bold;
+}
+
+.resumo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+}
+
+.detalhado {
+    padding: 8px;
+    display: flex;
+    gap: 8px;
+}
+
+.status {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.button {
+    align-self: center;
+}
