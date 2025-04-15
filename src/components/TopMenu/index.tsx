@@ -3,11 +3,9 @@ import Link from "next/link";
 import styles from "./styles.module.css";
 import { usePathname } from "next/navigation";
 import { PiClipboard, PiFactory, PiHouseLine, PiWarehouse, PiWrench } from "react-icons/pi";
-import { useState } from "react";
 
 export default function TopMenu() {
     const pathName = usePathname();
-    const [show, setShow] = useState(false);
 
     const itens = [
         {
@@ -39,7 +37,7 @@ export default function TopMenu() {
 
     const openGui = () => {
         event?.preventDefault()
-        setShow(true)
+        
     }
 
     return (

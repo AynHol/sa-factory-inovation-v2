@@ -14,10 +14,9 @@ import {
     AddCircle,
     AddCircleOutline,
     Air,
-    AirlineSeatFlat,
+    AirlineSeatReclineNormal,
     CarRepair,
     CarRepairOutlined,
-    ControlPoint,
     DirectionsCarFilled,
     DirectionsCarFilledOutlined,
     ElectricCar,
@@ -31,8 +30,14 @@ import {
     Window,
     WindowOutlined,
 } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 export default function QualityCreate() {
+    const router = useRouter()
+    const result = () => {
+        router.replace("/quality/result")
+    }
+
     return (
         <div className={styles.body}>
             <div className={styles.container}>
@@ -117,8 +122,8 @@ export default function QualityCreate() {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        icon={<AirlineSeatFlat />}
-                                        checkedIcon={<AirlineSeatFlat />}
+                                        icon={<AirlineSeatReclineNormal />}
+                                        checkedIcon={<AirlineSeatReclineNormal />}
                                         color="success"
                                     />
                                 }
@@ -158,7 +163,7 @@ export default function QualityCreate() {
                     </div>
                 </div>
                 <div className={styles.button}>
-                    <Button variant="contained" color="success">
+                    <Button variant="contained" color="success" onClick={result}>
                         Adicionar
                     </Button>
                 </div>

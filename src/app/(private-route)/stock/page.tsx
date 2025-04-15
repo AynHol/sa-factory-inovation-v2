@@ -7,7 +7,7 @@ export default function Stock() {
     const router = useRouter()
 
     const pageCreateStock = () => {
-        router.replace("/stockcreate")
+        router.replace("/stock/create")
     }
 
     return (
