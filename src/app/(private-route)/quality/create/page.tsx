@@ -44,7 +44,7 @@ export default function QualityCreate() {
                 <h1>Quality Create</h1>
                 <div className={styles.selectVehicle}>
                     <FormControl fullWidth>
-                        <InputLabel>Selecione o veiculo</InputLabel>
+                        <InputLabel sx={{backgroundColor: "#fff"}}>Selecione o veiculo</InputLabel>
                         <Select label="Veiculos">
                             <MenuItem value={10}>Uno</MenuItem>
                             <MenuItem value={20}>Gol</MenuItem>
