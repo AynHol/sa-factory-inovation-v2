@@ -10,31 +10,26 @@ export default function TopMenu() {
     const itens = [
         {
             label: "Home",
-            pagename: "/dashboard",
             page: "/dashboard",
             icon: <PiHouseLine />,
         },
         {
             label: "Manutenção",
-            pagename: "/maintenance",
             page: "/maintenance",
             icon: <PiWrench />,
         },
         {
             label: "Produção",
-            pagename: "/production",
             page: "/production",
             icon: <PiFactory />,
         },
         {
             label: "Estoque",
-            pagename: "/stock/",
             page: "/stock",
             icon: <PiWarehouse />,
         },
         {
             label: "Qualidade",
-            pagename: "/quality",
             page: "/quality",
             icon: <PiClipboard />,
         },
@@ -47,9 +42,7 @@ export default function TopMenu() {
                     {itens.map((item) => (
                         <Link
                             key={item.label}
-                            className={`${styles.item} ${
-                                pathName === item.pagename ? styles.selected : ""
-                            }`}
+                            className={`${styles.item} ${pathName === item.page ? styles.selected : ""}`}
                             href={item.page}
                         >
                             {item.icon}

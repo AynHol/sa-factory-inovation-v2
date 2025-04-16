@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 88.79vh;
+    height: 88.77vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -50,6 +50,7 @@
     justify-content: center;
     color: #1b5e20;
     font-weight: bold;
+    gap: 4px;
 }
 
 .nosecondlies {

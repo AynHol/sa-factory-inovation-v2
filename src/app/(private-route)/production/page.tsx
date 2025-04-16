@@ -13,37 +13,50 @@ import {
     Typography,
 } from "@mui/material";
 import { CheckCircle } from "@mui/icons-material";
-import { clearInterval } from "timers";
+import axios from "axios";
 
 export default function Production() {
     const [progress, setProgress] = useState(".");
-    const [lies, setLies] = useState(styles.nolies);
-    const [secondLies, setSecondLies] = useState(styles.nosecondlies);
+    // const [lies, setLies] = useState(styles.lies);
+    // const [secondLies, setSecondLies] = useState(styles.nosecondlies);
     const [buttonStatus, setButtonStatus] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [sent, setSent] = useState<boolean>(false);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress == "..." ? "." : prevProgress + "."));
-        }, 800);
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
+    function handleSubmit() {
+        setIsLoading(true);
+
+        // chamada API
+
+        setTimeout(() => {
+            setIsLoading(false);
+            setSent(true);
+        }, 3000);
+    }
+
+    // useEffect(() => {
+    //     const timer = setInterval(() => {
+    //         setProgress((prevProgress) => (prevProgress == "..." ? "." : prevProgress + "."));
+    //     }, 800);
+    //     return () => {
+    //         clearInterval(timer);
+    //     };
+    // }, []);
 
     const loadLies = () => {
         setButtonStatus(false);
-        setLies(styles.lies);
+        // setLies(styles.lies);
 
         setTimeout(() => {
-            setLies(styles.nolies);
-            setSecondLies(styles.secondlies);
-            loadsencodLies()
+            // setLies(styles.nolies);
+            // setSecondLies(styles.secondlies);
+            loadsencodLies();
         }, 10000);
     };
 
     const loadsencodLies = () => {
         setTimeout(() => {
-            setSecondLies(styles.nosecondlies);
+            // setSecondLies(styles.nosecondlies);
             setButtonStatus(true);
         }, 4000);
     };
@@ -56,18 +69,14 @@ export default function Production() {
                     <div className={styles.content}>
                         <div className={`${styles.div} ${styles.div1}`}>
                             <FormControl sx={{ width: 200 }}>
-                                <InputLabel sx={{ backgroundColor: "#fff" }}>
-                                    Selecione o Modelo
-                                </InputLabel>
+                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o Modelo</InputLabel>
                                 <Select>
                                     <MenuItem value={10}>Uno</MenuItem>
                                     <MenuItem value={20}>Gol</MenuItem>
                                 </Select>
                             </FormControl>
                             <FormControl sx={{ width: 200 }}>
-                                <InputLabel sx={{ backgroundColor: "#fff" }}>
-                                    Selecione a Cor
-                                </InputLabel>
+                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Cor</InputLabel>
                                 <Select>
                                     <MenuItem value={10}>Preto</MenuItem>
                                     <MenuItem value={20}>Vermelho</MenuItem>
@@ -93,28 +102,32 @@ export default function Production() {
                         <Button
                             variant="contained"
                             color="success"
-                            onClick={loadLies}
+                            onClick={handleSubmit}
                             disabled={buttonStatus == false}
                         >
-                            Enviar para produção
+                            Enviar para a produção
                         </Button>
                     </div>
-                    <div className={lies}>
-                        <Box sx={{ width: "80%" }} >
-                            <Box>
-                                <LinearProgress />
+
+                    {isLoading ? (
+                        <div>
+                            <Box sx={{ width: "80%" }}>
+                                <Box>
+                                    <LinearProgress />
+                                </Box>
+                                <Box>
+                                    <Typography sx={{ color: "text.primary", marginTop: 1 }}>
+                                        Enviando para a produção{progress}
+                                    </Typography>
+                                </Box>
                             </Box>
-                            <Box>
-                                <Typography sx={{ color: "text.primary", marginTop: 1 }}>
-                                    Enviando para a produção{progress}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </div>
-                    <div className={secondLies}>
-                        <CheckCircle color="success" fontSize="large" />
-                        <p>Enviado com Sucesso</p>
-                    </div>
+                        </div>
+                    ) : !isLoading && sent ? (
+                        <div>
+                            <CheckCircle color="success" fontSize="large" />
+                            <p>Enviado com Sucesso</p>
+                        </div>
+                    ) : null}
                 </form>
             </div>
         </div>

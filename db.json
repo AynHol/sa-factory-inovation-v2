@@ -12,5 +12,21 @@
       "email": "teste",
       "password": "123"
     }
+  ],
+  "qastatus": [
+    {
+      "id": "7f54fa04-380d-44ad-8dd6-6aa680fc80ea",
+      "car": "Gol",
+      "door": false,
+      "engine": true,
+      "chassi": true,
+      "tire": false,
+      "window": true,
+      "light": false,
+      "seat": true,
+      "airbag": true,
+      "extra": false,
+      "eletric": false
+    }
   ]
 }
