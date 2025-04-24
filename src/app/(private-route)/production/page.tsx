@@ -17,49 +17,32 @@ import axios from "axios";
 
 export default function Production() {
     const [progress, setProgress] = useState(".");
-    // const [lies, setLies] = useState(styles.lies);
-    // const [secondLies, setSecondLies] = useState(styles.nosecondlies);
     const [buttonStatus, setButtonStatus] = useState(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(false);
 
     function handleSubmit() {
         setIsLoading(true);
-
-        // chamada API
+        setButtonStatus(false);
 
         setTimeout(() => {
             setIsLoading(false);
             setSent(true);
-        }, 3000);
+            setTimeout(() => {
+                setSent(false);
+                setButtonStatus(true);
+            }, 3000);
+        }, 7000);
     }
 
-    // useEffect(() => {
-    //     const timer = setInterval(() => {
-    //         setProgress((prevProgress) => (prevProgress == "..." ? "." : prevProgress + "."));
-    //     }, 800);
-    //     return () => {
-    //         clearInterval(timer);
-    //     };
-    // }, []);
-
-    const loadLies = () => {
-        setButtonStatus(false);
-        // setLies(styles.lies);
-
-        setTimeout(() => {
-            // setLies(styles.nolies);
-            // setSecondLies(styles.secondlies);
-            loadsencodLies();
-        }, 10000);
-    };
-
-    const loadsencodLies = () => {
-        setTimeout(() => {
-            // setSecondLies(styles.nosecondlies);
-            setButtonStatus(true);
-        }, 4000);
-    };
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setProgress((prevProgress) => (prevProgress == "..." ? "." : prevProgress + "."));
+        }, 800);
+        return () => {
+            clearInterval(timer);
+        };
+    }, []);
 
     return (
         <div className={styles.body}>
@@ -69,14 +52,18 @@ export default function Production() {
                     <div className={styles.content}>
                         <div className={`${styles.div} ${styles.div1}`}>
                             <FormControl sx={{ width: 200 }}>
-                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o Modelo</InputLabel>
+                                <InputLabel sx={{ backgroundColor: "#fff" }}>
+                                    Selecione o Modelo
+                                </InputLabel>
                                 <Select>
                                     <MenuItem value={10}>Uno</MenuItem>
                                     <MenuItem value={20}>Gol</MenuItem>
                                 </Select>
                             </FormControl>
                             <FormControl sx={{ width: 200 }}>
-                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Cor</InputLabel>
+                                <InputLabel sx={{ backgroundColor: "#fff" }}>
+                                    Selecione a Cor
+                                </InputLabel>
                                 <Select>
                                     <MenuItem value={10}>Preto</MenuItem>
                                     <MenuItem value={20}>Vermelho</MenuItem>
@@ -110,7 +97,7 @@ export default function Production() {
                     </div>
 
                     {isLoading ? (
-                        <div>
+                        <div className={styles.loading}>
                             <Box sx={{ width: "80%" }}>
                                 <Box>
                                     <LinearProgress />
@@ -123,7 +110,7 @@ export default function Production() {
                             </Box>
                         </div>
                     ) : !isLoading && sent ? (
-                        <div>
+                        <div className={styles.sent}>
                             <CheckCircle color="success" fontSize="large" />
                             <p>Enviado com Sucesso</p>
                         </div>

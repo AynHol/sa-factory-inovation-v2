@@ -26,7 +26,53 @@
       "seat": true,
       "airbag": true,
       "extra": false,
-      "eletric": false
+      "eletric": false,
+      "approval": false
+    },
+    {
+      "id": "627fe093-74c7-4b43-a430-6e734e9d4e6c",
+      "car": "Uno",
+      "door": true,
+      "engine": true,
+      "chassi": false,
+      "tire": false,
+      "window": true,
+      "light": true,
+      "seat": false,
+      "airbag": false,
+      "extra": true,
+      "eletric": true,
+      "approval": false
+    },
+    {
+      "id": "985fb672-ae74-474c-ad46-680c635f4d3d",
+      "car": "Gol",
+      "door": true,
+      "engine": true,
+      "chassi": true,
+      "tire": true,
+      "window": true,
+      "light": true,
+      "seat": true,
+      "airbag": true,
+      "extra": true,
+      "eletric": true,
+      "approval": true
+    },
+    {
+      "id": "1203772b-8cd9-4049-8e3a-a76545e90f03",
+      "car": "Uno",
+      "door": true,
+      "engine": true,
+      "chassi": true,
+      "tire": true,
+      "window": true,
+      "light": true,
+      "seat": true,
+      "airbag": true,
+      "extra": true,
+      "eletric": true,
+      "approval": true
     }
   ]
 }

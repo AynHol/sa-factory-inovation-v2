@@ -1,26 +1,53 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import {
+    Box,
     Button,
     Checkbox,
     Dialog,
     FormControl,
     InputLabel,
+    LinearProgress,
     MenuItem,
     Select,
     TextField,
     Tooltip,
+    Typography,
 } from "@mui/material";
-import { Inventory2, Inventory2Outlined } from "@mui/icons-material";
+import { CheckCircle, Inventory2, Inventory2Outlined } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 
 export default function Production() {
     const [newProduct, setNewProduct] = useState(false);
-    const router = useRouter()
-    const stock = () => {
-        router.replace("/stock")
+    const [progress, setProgress] = useState(".");
+    const [buttonStatus, setButtonStatus] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [sent, setSent] = useState<boolean>(false);
+
+    const router = useRouter();
+
+    function handleSubmit() {
+        setIsLoading(true);
+        setButtonStatus(false);
+
+        setTimeout(() => {
+            setIsLoading(false);
+            setSent(true);
+            setTimeout(() => {
+                router.replace("/stock");
+            }, 3000);
+        }, 4000);
     }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setProgress((prevProgress) => (prevProgress == "..." ? "." : prevProgress + "."));
+        }, 800);
+        return () => {
+            clearInterval(timer);
+        };
+    }, []);
 
     return (
         <div className={styles.body}>
@@ -78,10 +105,35 @@ export default function Production() {
                         </div>
                     )}
                     <div className={styles.button}>
-                        <Button variant="contained" color="success" onClick={stock}>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            onClick={handleSubmit}
+                            disabled={buttonStatus == false}
+                        >
                             adicionar
                         </Button>
                     </div>
+
+                    {isLoading ? (
+                        <div className={styles.loading}>
+                            <Box sx={{ width: "80%" }}>
+                                <Box>
+                                    <LinearProgress />
+                                </Box>
+                                <Box>
+                                    <Typography sx={{ color: "text.primary", marginTop: 1 }}>
+                                        Adicionando ao Estoque{progress}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </div>
+                    ) : !isLoading && sent ? (
+                        <div className={styles.sent}>
+                            <CheckCircle color="success" fontSize="large" />
+                            <p>Adicionado com Sucesso</p>
+                        </div>
+                    ) : null}
                 </form>
             </div>
         </div>

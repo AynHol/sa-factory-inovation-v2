@@ -21,6 +21,10 @@
     margin-top: 10px;
 }
 
+.button button:disabled {
+    color: #72726f;
+}
+
 .div {
     display: flex;
     padding: 8px;
@@ -31,7 +35,7 @@
     gap: 55px;
 }
 
-.lies {
+.loading {
     margin-top: 16px;
     text-align: center;
     display: flex;
@@ -39,11 +43,7 @@
     align-items: center;
 }
 
-.nolies {
-    display: none;
-}
-
-.secondlies {
+.sent {
     margin-top: 16px;
     display: flex;
     align-items: center;
@@ -51,8 +51,4 @@
     color: #1b5e20;
     font-weight: bold;
     gap: 4px;
-}
-
-.nosecondlies {
-    display: none;
 }

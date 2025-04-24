@@ -1,13 +1,16 @@
 "use client";
 import {
+    Box,
     Button,
     Checkbox,
     FormControl,
     FormControlLabel,
     FormGroup,
     InputLabel,
+    LinearProgress,
     MenuItem,
     Select,
+    Typography,
 } from "@mui/material";
 import styles from "./styles.module.css";
 import {
@@ -17,6 +20,7 @@ import {
     AirlineSeatReclineNormal,
     CarRepair,
     CarRepairOutlined,
+    CheckCircle,
     DirectionsCarFilled,
     DirectionsCarFilledOutlined,
     ElectricCar,
@@ -31,7 +35,7 @@ import {
     WindowOutlined,
 } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
 
@@ -47,11 +51,18 @@ export default function QualityCreate() {
     const [airbag, setAirbag] = useState<boolean>(false);
     const [extra, setExtra] = useState<boolean>(false);
     const [eletric, setEletric] = useState<boolean>(false);
+    const [progress, setProgress] = useState(".");
+    const [buttonStatus, setButtonStatus] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [sent, setSent] = useState<boolean>(false);
 
     const router = useRouter();
 
     async function handleCreateQAStatus(event: FormEvent) {
         event.preventDefault();
+        setIsLoading(true);
+        setButtonStatus(false);
+
         const result = {
             id: uuid(),
             car: car,
@@ -67,8 +78,24 @@ export default function QualityCreate() {
             eletric: eletric,
         };
         await axios.post("http://localhost:5500/qastatus", result);
-        router.replace("/quality/result");
+
+        setTimeout(() => {
+            setIsLoading(false);
+            setSent(true);
+            setTimeout(() => {
+                router.replace(`/quality/result?id=${result.id}`);
+            }, 3000);
+        }, 3000);
     }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setProgress((prevProgress) => (prevProgress == "..." ? "." : prevProgress + "."));
+        }, 800);
+        return () => {
+            clearInterval(timer);
+        };
+    }, []);
 
     return (
         <div className={styles.body}>
@@ -76,8 +103,14 @@ export default function QualityCreate() {
                 <h1>Quality Create</h1>
                 <div className={styles.selectVehicle}>
                     <FormControl fullWidth>
-                        <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o veiculo</InputLabel>
-                        <Select label="Veiculos" onChange={(event) => setCar(event.target.value as string)} value={car}>
+                        <InputLabel sx={{ backgroundColor: "#fff" }}>
+                            Selecione o veiculo
+                        </InputLabel>
+                        <Select
+                            label="Veiculos"
+                            onChange={(event) => setCar(event.target.value as string)}
+                            value={car}
+                        >
                             <MenuItem value={"Uno"}>Uno</MenuItem>
                             <MenuItem value={"Gol"}>Gol</MenuItem>
                         </Select>
@@ -197,6 +230,7 @@ export default function QualityCreate() {
                                         checkedIcon={<ElectricCar />}
                                         color="success"
                                         onChange={(event) => setEletric(event.target.checked)}
+                                        disabled={buttonStatus == false}
                                     />
                                 }
                                 label="Sistema Eletrônico"
@@ -211,6 +245,26 @@ export default function QualityCreate() {
                         </Button>
                     </form>
                 </div>
+
+                {isLoading ? (
+                    <div className={styles.loading}>
+                        <Box sx={{ width: "80%" }}>
+                            <Box>
+                                <LinearProgress />
+                            </Box>
+                            <Box>
+                                <Typography sx={{ color: "text.primary", marginTop: 1 }}>
+                                    Gerando Avaliação{progress}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </div>
+                ) : !isLoading && sent ? (
+                    <div className={styles.sent}>
+                        <CheckCircle color="success" fontSize="large" />
+                        <p>Gerado com Sucesso</p>
+                    </div>
+                ) : null}
             </div>
         </div>
     );

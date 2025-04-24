@@ -13,9 +13,9 @@ import {
     TripOrigin,
     Window,
 } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 type Result = {
     id: string;
@@ -35,28 +35,55 @@ type Result = {
 export default function QualityResult() {
     const [result, setResult] = useState<Result>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [approval, setApproval] = useState<boolean>(false);
 
     const router = useRouter();
-    const end = () => {
-        router.replace("/quality");
-    };
 
     useEffect(() => {
         loadResult();
     }, []);
 
+    const id = useSearchParams().get("id");
+
     async function loadResult() {
         setIsLoading(true);
-        const response = await axios.get("http://localhost:5500/qastatus/7f54fa04-380d-44ad-8dd6-6aa680fc80ea");
+        const response = await axios.get(`http://localhost:5500/qastatus/${id}`);
         setResult(response.data);
         setIsLoading(false);
-        console.log(response.data);
-        console.log(result);
     }
 
-    const getColor = (status: boolean) => {
-        status ? styles.success : styles.error;
+    const resumo = () => {
+        var n = 0;
+        result?.airbag ? ++n : n + 0;
+        result?.chassi ? ++n : n + 0;
+        result?.door ? ++n : n + 0;
+        result?.eletric ? ++n : n + 0;
+        result?.engine ? ++n : n + 0;
+        result?.extra ? ++n : n + 0;
+        result?.light ? ++n : n + 0;
+        result?.seat ? ++n : n + 0;
+        result?.tire ? ++n : n + 0;
+        result?.window ? ++n : n + 0;
+        return n;
     };
+
+    const resumoCal = () => {
+        const n = resumo();
+        const cal = n * 10;
+        return cal;
+    };
+
+    useEffect(() => {
+        resumo() === 10 ? setApproval(true) : setApproval(false);
+    });
+
+    async function handleEnd(event: FormEvent) {
+        event.preventDefault();
+        await axios.patch(`http://localhost:5500/qastatus/${id}`, {
+            approval: approval,
+        });
+        router.replace("/quality");
+    }
 
     return (
         <div className={styles.body}>
@@ -65,9 +92,6 @@ export default function QualityResult() {
                 <div className={styles.info}>
                     <p>
                         Veículo: <span className={styles.infoSpan}>{result?.car}</span>
-                    </p>
-                    <p>
-                        Serie: <span className={styles.infoSpan}>143</span>
                     </p>
                 </div>
                 <h2 className={styles.h2R}>Resumo:</h2>
@@ -85,7 +109,7 @@ export default function QualityResult() {
                         <CircularProgress
                             variant="determinate"
                             size={70}
-                            value={75}
+                            value={resumoCal()}
                             thickness={5}
                             sx={{
                                 position: "absolute",
@@ -105,14 +129,25 @@ export default function QualityResult() {
                                 justifyContent: "center",
                             }}
                         >
-                            <Typography variant="caption" component="div" sx={{ color: "text.secondary" }}>
-                                7/10
+                            <Typography
+                                variant="caption"
+                                component="div"
+                                sx={{ color: "text.secondary" }}
+                            >
+                                {resumo()}/10
                             </Typography>
                         </Box>
                     </Box>
-                    <p>
-                        Resultado: <span className={styles.status}>Reprovado</span>
-                    </p>
+
+                    {approval ? (
+                        <p>
+                            Resultado: <span className={styles.statusA}>Aprovado</span>
+                        </p>
+                    ) : (
+                        <p>
+                            Resultado: <span className={styles.statusR}>Reprovado</span>
+                        </p>
+                    )}
                 </div>
                 <h2 className={styles.h2D}>Detalhado:</h2>
 
@@ -127,7 +162,9 @@ export default function QualityResult() {
                             <CarRepair className={result?.engine ? styles.success : styles.error} />
                         </Tooltip>
                         <Tooltip title="Lataria">
-                            <DirectionsCarFilled className={result?.chassi ? styles.success : styles.error} />
+                            <DirectionsCarFilled
+                                className={result?.chassi ? styles.success : styles.error}
+                            />
                         </Tooltip>
                         <Tooltip title="Pneus">
                             <TripOrigin className={result?.tire ? styles.success : styles.error} />
@@ -139,7 +176,9 @@ export default function QualityResult() {
                             <LightMode className={result?.light ? styles.success : styles.error} />
                         </Tooltip>
                         <Tooltip title="Bancos">
-                            <AirlineSeatReclineNormal className={result?.seat ? styles.success : styles.error} />
+                            <AirlineSeatReclineNormal
+                                className={result?.seat ? styles.success : styles.error}
+                            />
                         </Tooltip>
                         <Tooltip title="Airbag">
                             <Air className={result?.airbag ? styles.success : styles.error} />
@@ -148,12 +187,14 @@ export default function QualityResult() {
                             <AddCircle className={result?.extra ? styles.success : styles.error} />
                         </Tooltip>
                         <Tooltip title="Sistema Eletrônico">
-                            <ElectricCar className={result?.eletric ? styles.success : styles.error} />
+                            <ElectricCar
+                                className={result?.eletric ? styles.success : styles.error}
+                            />
                         </Tooltip>
                     </div>
                 )}
                 <div className={styles.button}>
-                    <Button variant="contained" color="success" onClick={end}>
+                    <Button variant="contained" color="success" onClick={handleEnd}>
                         Concluir
                     </Button>
                 </div>
