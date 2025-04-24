@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 88.79vh;
+    height: 88.77vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -21,6 +21,10 @@
     margin-top: 10px;
 }
 
+.button button:disabled {
+    color: #72726f;
+}
+
 .div {
     display: flex;
     padding: 8px;
@@ -31,7 +35,7 @@
     gap: 55px;
 }
 
-.lies {
+.loading {
     margin-top: 16px;
     text-align: center;
     display: flex;
@@ -39,19 +43,12 @@
     align-items: center;
 }
 
-.nolies {
-    display: none;
-}
-
-.secondlies {
+.sent {
     margin-top: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #1b5e20;
     font-weight: bold;
-}
-
-.nosecondlies {
-    display: none;
+    gap: 4px;
 }

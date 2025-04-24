@@ -22,7 +22,7 @@
 
 .info {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 8px;
 }
 
@@ -43,11 +43,25 @@
     gap: 8px;
 }
 
-.status {
+.statusR {
     color: #d32f2f;
+    font-weight: bold;
+}
+
+.statusA {
+    color: #2e7d32;
     font-weight: bold;
 }
 
 .button {
     align-self: center;
+}
+
+
+.success {
+    color: #2e7d32;
+}
+
+.error {
+    color: #d32f2f;
 }

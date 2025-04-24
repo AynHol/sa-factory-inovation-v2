@@ -13,13 +13,27 @@ import {
     Typography,
 } from "@mui/material";
 import { CheckCircle } from "@mui/icons-material";
-import { clearInterval } from "timers";
+import axios from "axios";
 
 export default function Production() {
     const [progress, setProgress] = useState(".");
-    const [lies, setLies] = useState(styles.nolies);
-    const [secondLies, setSecondLies] = useState(styles.nosecondlies);
     const [buttonStatus, setButtonStatus] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [sent, setSent] = useState<boolean>(false);
+
+    function handleSubmit() {
+        setIsLoading(true);
+        setButtonStatus(false);
+
+        setTimeout(() => {
+            setIsLoading(false);
+            setSent(true);
+            setTimeout(() => {
+                setSent(false);
+                setButtonStatus(true);
+            }, 3000);
+        }, 7000);
+    }
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -29,24 +43,6 @@ export default function Production() {
             clearInterval(timer);
         };
     }, []);
-
-    const loadLies = () => {
-        setButtonStatus(false);
-        setLies(styles.lies);
-
-        setTimeout(() => {
-            setLies(styles.nolies);
-            setSecondLies(styles.secondlies);
-            loadsencodLies()
-        }, 10000);
-    };
-
-    const loadsencodLies = () => {
-        setTimeout(() => {
-            setSecondLies(styles.nosecondlies);
-            setButtonStatus(true);
-        }, 4000);
-    };
 
     return (
         <div className={styles.body}>
@@ -93,28 +89,32 @@ export default function Production() {
                         <Button
                             variant="contained"
                             color="success"
-                            onClick={loadLies}
+                            onClick={handleSubmit}
                             disabled={buttonStatus == false}
                         >
-                            Enviar para produção
+                            Enviar para a produção
                         </Button>
                     </div>
-                    <div className={lies}>
-                        <Box sx={{ width: "80%" }} >
-                            <Box>
-                                <LinearProgress />
+
+                    {isLoading ? (
+                        <div className={styles.loading}>
+                            <Box sx={{ width: "80%" }}>
+                                <Box>
+                                    <LinearProgress />
+                                </Box>
+                                <Box>
+                                    <Typography sx={{ color: "text.primary", marginTop: 1 }}>
+                                        Enviando para a produção{progress}
+                                    </Typography>
+                                </Box>
                             </Box>
-                            <Box>
-                                <Typography sx={{ color: "text.primary", marginTop: 1 }}>
-                                    Enviando para a produção{progress}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </div>
-                    <div className={secondLies}>
-                        <CheckCircle color="success" fontSize="large" />
-                        <p>Enviado com Sucesso</p>
-                    </div>
+                        </div>
+                    ) : !isLoading && sent ? (
+                        <div className={styles.sent}>
+                            <CheckCircle color="success" fontSize="large" />
+                            <p>Enviado com Sucesso</p>
+                        </div>
+                    ) : null}
                 </form>
             </div>
         </div>
