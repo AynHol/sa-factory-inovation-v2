@@ -18,6 +18,7 @@ export default function Production() {
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
     const [product, setProduct] = useState("");
+    const [stock, setStock] = useState<Stock[]>([])
 
     const router = useRouter();
 
@@ -42,7 +43,7 @@ export default function Production() {
         }, 3000);
     }
 
-    async function handleUpdateStock(event: FormEvent) {
+    async function handleUpdateStock(event: FormEvent, id: string) {
         event.preventDefault();
         setIsLoading(true);
         setButtonStatus(false);
@@ -84,14 +85,15 @@ export default function Production() {
                                 <FormControl variant="outlined">
                                     <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o produto</InputLabel>
                                     <Select label="Produtos" sx={{ width: 200 }} onChange={(event) => setProduct(event.target.value as string)} value={product}>
-                                        <MenuItem value={10}>Pneu </MenuItem>
-                                        <MenuItem value={20}>Motor</MenuItem>
+                                        {stock.map((stock) => (
+                                            <MenuItem key={stock.id} value={stock.id}>{stock.mark}</MenuItem>
+                                        ))}
                                     </Select>
                                 </FormControl>
                                 <TextField label="Quantidade" variant="outlined" type="number" onChange={(event) => setAmount(event.target.value)} value={amount} />
                             </div>
                             <div className={styles.button}>
-                                <Button variant="contained" color="success" onClick={handleUpdateStock} disabled={buttonStatus == false}>
+                                <Button variant="contained" color="success"  disabled={buttonStatus == false}>
                                     adicionar
                                 </Button>
                             </div>
