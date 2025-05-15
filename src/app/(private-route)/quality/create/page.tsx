@@ -1,17 +1,5 @@
 "use client";
-import {
-    Box,
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormGroup,
-    InputLabel,
-    LinearProgress,
-    MenuItem,
-    Select,
-    Typography,
-} from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, LinearProgress, MenuItem, Select, Typography } from "@mui/material";
 import styles from "./styles.module.css";
 import {
     AddCircle,
@@ -79,12 +67,10 @@ export default function QualityCreate() {
         };
         await axios.post("http://localhost:5500/qastatus", result);
 
+        setIsLoading(false);
+        setSent(true);
         setTimeout(() => {
-            setIsLoading(false);
-            setSent(true);
-            setTimeout(() => {
-                router.replace(`/quality/result?id=${result.id}`);
-            }, 3000);
+            router.replace(`/quality/result?id=${result.id}`);
         }, 3000);
     }
 
@@ -103,14 +89,8 @@ export default function QualityCreate() {
                 <h1>Quality Create</h1>
                 <div className={styles.selectVehicle}>
                     <FormControl fullWidth>
-                        <InputLabel sx={{ backgroundColor: "#fff" }}>
-                            Selecione o veiculo
-                        </InputLabel>
-                        <Select
-                            label="Veiculos"
-                            onChange={(event) => setCar(event.target.value as string)}
-                            value={car}
-                        >
+                        <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o veiculo</InputLabel>
+                        <Select label="Veiculos" onChange={(event) => setCar(event.target.value as string)} value={car}>
                             <MenuItem value={"Uno"}>Uno</MenuItem>
                             <MenuItem value={"Gol"}>Gol</MenuItem>
                         </Select>
@@ -122,23 +102,13 @@ export default function QualityCreate() {
                         <FormGroup>
                             <FormControlLabel
                                 control={
-                                    <Checkbox
-                                        icon={<SensorDoorOutlined />}
-                                        checkedIcon={<SensorDoor />}
-                                        color="success"
-                                        onChange={(event) => setDoor(event.target.checked)}
-                                    />
+                                    <Checkbox icon={<SensorDoorOutlined />} checkedIcon={<SensorDoor />} color="success" onChange={(event) => setDoor(event.target.checked)} />
                                 }
                                 label="Portas"
                             />
                             <FormControlLabel
                                 control={
-                                    <Checkbox
-                                        icon={<CarRepairOutlined />}
-                                        checkedIcon={<CarRepair />}
-                                        color="success"
-                                        onChange={(event) => setEngine(event.target.checked)}
-                                    />
+                                    <Checkbox icon={<CarRepairOutlined />} checkedIcon={<CarRepair />} color="success" onChange={(event) => setEngine(event.target.checked)} />
                                 }
                                 label="Motor"
                             />
@@ -154,25 +124,11 @@ export default function QualityCreate() {
                                 label="Lataria"
                             />
                             <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<PanoramaFishEye />}
-                                        checkedIcon={<TripOrigin />}
-                                        color="success"
-                                        onChange={(event) => setTire(event.target.checked)}
-                                    />
-                                }
+                                control={<Checkbox icon={<PanoramaFishEye />} checkedIcon={<TripOrigin />} color="success" onChange={(event) => setTire(event.target.checked)} />}
                                 label="Pneus"
                             />
                             <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<WindowOutlined />}
-                                        checkedIcon={<Window />}
-                                        color="success"
-                                        onChange={(event) => setWindow(event.target.checked)}
-                                    />
-                                }
+                                control={<Checkbox icon={<WindowOutlined />} checkedIcon={<Window />} color="success" onChange={(event) => setWindow(event.target.checked)} />}
                                 label="Vidros / Espelhos"
                             />
                         </FormGroup>
@@ -180,14 +136,7 @@ export default function QualityCreate() {
                     <div className={styles.check2}>
                         <FormGroup>
                             <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<LightModeOutlined />}
-                                        checkedIcon={<LightMode />}
-                                        color="success"
-                                        onChange={(event) => setLight(event.target.checked)}
-                                    />
-                                }
+                                control={<Checkbox icon={<LightModeOutlined />} checkedIcon={<LightMode />} color="success" onChange={(event) => setLight(event.target.checked)} />}
                                 label="Farol"
                             />
                             <FormControlLabel
@@ -202,25 +151,11 @@ export default function QualityCreate() {
                                 label="Bancos"
                             />
                             <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<Air />}
-                                        checkedIcon={<Air />}
-                                        color="success"
-                                        onChange={(event) => setAirbag(event.target.checked)}
-                                    />
-                                }
+                                control={<Checkbox icon={<Air />} checkedIcon={<Air />} color="success" onChange={(event) => setAirbag(event.target.checked)} />}
                                 label="Airbag"
                             />
                             <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<AddCircleOutline />}
-                                        checkedIcon={<AddCircle />}
-                                        color="success"
-                                        onChange={(event) => setExtra(event.target.checked)}
-                                    />
-                                }
+                                control={<Checkbox icon={<AddCircleOutline />} checkedIcon={<AddCircle />} color="success" onChange={(event) => setExtra(event.target.checked)} />}
                                 label="Extras"
                             />
                             <FormControlLabel
@@ -253,9 +188,7 @@ export default function QualityCreate() {
                                 <LinearProgress />
                             </Box>
                             <Box>
-                                <Typography sx={{ color: "text.primary", marginTop: 1 }}>
-                                    Gerando Avaliação{progress}
-                                </Typography>
+                                <Typography sx={{ color: "text.primary", marginTop: 1 }}>Gerando Avaliação{progress}</Typography>
                             </Box>
                         </Box>
                     </div>
