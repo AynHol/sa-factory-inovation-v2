@@ -18,9 +18,19 @@ export default function Production() {
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
     const [product, setProduct] = useState("");
-    const [stock, setStock] = useState<Stock[]>([])
+    const [stock, setStock] = useState<Stock[]>([]);
+    const [id, setId] = useState("");
 
     const router = useRouter();
+
+    useEffect(() => {
+        loadItens();
+    }, []);
+
+    async function loadItens() {
+        const response = await axios.get("http://localhost:5500/stock");
+        setStock(response.data);
+    }
 
     async function handleCreateStock(event: FormEvent) {
         event.preventDefault();
@@ -43,12 +53,12 @@ export default function Production() {
         }, 3000);
     }
 
-    async function handleUpdateStock(event: FormEvent, id: string) {
+    async function handleUpdateStock(event: FormEvent) {
         event.preventDefault();
         setIsLoading(true);
         setButtonStatus(false);
 
-        await axios.patch(`http://localhost:5500/stock/${id}`);
+        await axios.patch(`http://localhost:5500/stock/${id}` );
 
         setIsLoading(false);
         setSent(true);
@@ -84,16 +94,18 @@ export default function Production() {
                             <div className={styles.product}>
                                 <FormControl variant="outlined">
                                     <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o produto</InputLabel>
-                                    <Select label="Produtos" sx={{ width: 200 }} onChange={(event) => setProduct(event.target.value as string)} value={product}>
+                                    <Select label="Produtos" sx={{ width: 200 }} onChange={(event) => setId(event.target.value as string)} value={product}>
                                         {stock.map((stock) => (
-                                            <MenuItem key={stock.id} value={stock.id}>{stock.mark}</MenuItem>
+                                            <MenuItem key={stock.id} value={stock.id}>
+                                                {stock.name}
+                                            </MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
                                 <TextField label="Quantidade" variant="outlined" type="number" onChange={(event) => setAmount(event.target.value)} value={amount} />
                             </div>
                             <div className={styles.button}>
-                                <Button variant="contained" color="success"  disabled={buttonStatus == false}>
+                                <Button variant="contained" color="success" disabled={buttonStatus == false}>
                                     adicionar
                                 </Button>
                             </div>

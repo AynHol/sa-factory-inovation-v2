@@ -14,7 +14,13 @@
     }
   ],
   "stock": [
-    
+    {
+      "id": "627fe093-74c7-4b43-a430-6e734e9d4g34",
+      "name": "pneu",
+      "mark": "fabricante 1",
+      "amount": 12000,
+      "description": "É um pneu"
+    }
   ],
   "qastatus": [
     {
