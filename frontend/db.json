@@ -13,6 +13,15 @@
       "password": "123"
     }
   ],
+  "stock": [
+    {
+      "id": "627fe093-74c7-4b43-a430-6e734e9d4g34",
+      "name": "pneu",
+      "mark": "fabricante 1",
+      "amount": 12000,
+      "description": "É um pneu"
+    }
+  ],
   "qastatus": [
     {
       "id": "7f54fa04-380d-44ad-8dd6-6aa680fc80ea",
