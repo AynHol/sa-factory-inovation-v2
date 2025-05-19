@@ -1,12 +1,12 @@
 "use client";
-import Image from "next/image";
-import styles from "./styles.module.css";
 import carFactory from "@/assets/factory.jpg";
-import Link from "next/link";
-import { PiEye } from "react-icons/pi";
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { PiEye } from "react-icons/pi";
+import styles from "./styles.module.css";
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
@@ -30,15 +30,18 @@ export default function Login() {
 
     const router = useRouter();
 
-    async function handleLogin(event: FormEvent) {
-        event.preventDefault();
-        const response = await axios.get(`http://localhost:5500/profiles`, {
-            params: {
-                email: email,
-                password: password,
-            },
-        });
-        response.data.length !== 0 ? router.replace("/dashboard") : passwordEmailError(true);
+    async function handleLogin() {
+        try {
+            const response = await axios.post<{ access_token: string }>(`http://localhost:5500/user/login`, {
+                email,
+                password,
+            });
+
+            localStorage.setItem("access_token", response.data.access_token);
+            router.push("/dashboard");
+        } catch {
+            passwordEmailError(true);
+        }
     }
 
     return (
@@ -53,34 +56,16 @@ export default function Login() {
                         <p>Por favor entre com as suas informações</p>
                     </div>
                     <div className={styles.inputs}>
-                        <input
-                            type="text"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
-                        />
+                        <input type="text" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
                         <div className={styles.password}>
-                            <input
-                                type={inputType}
-                                placeholder="Password"
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)}
-                            />
-                            <button
-                                className={styles.eye_button}
-                                type="button"
-                                onClick={toggleInput}
-                            >
+                            <input type={inputType} placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                            <button className={styles.eye_button} type="button" onClick={toggleInput}>
                                 <PiEye size={24} className={toggle} />
                             </button>
                         </div>
                     </div>
                     <p className={error}>Email ou/e Password incorreta ou inexistente</p>
-                    <button
-                        className={styles.login_button}
-                        type="submit"
-                        disabled={!email || !password}
-                    >
+                    <button className={styles.login_button} type="submit" disabled={!email || !password}>
                         Log in
                     </button>
                     <div className={styles.cadastro}>
