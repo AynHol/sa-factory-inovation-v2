@@ -1,13 +1,12 @@
 "use client";
-import Image from "next/image";
-import styles from "./styles.module.css";
 import carFactory from "@/assets/factory.jpg";
-import Link from "next/link";
-import { v4 as uuid } from "uuid";
-import { FormEvent, useState } from "react";
 import axios from "axios";
-import { PiEye } from "react-icons/pi";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { PiEye } from "react-icons/pi";
+import styles from "./styles.module.css";
 
 export default function SignUp() {
     const [name, setName] = useState<string>("");
@@ -23,16 +22,18 @@ export default function SignUp() {
 
     const router = useRouter();
 
-    async function handleCreateProfile(event: FormEvent) {
-        event.preventDefault();
-        const person = {
-            id: uuid(),
-            name: name,
-            email: email,
-            password: password,
-        };
-        await axios.post("http://localhost:5500/profiles", person);
-        router.replace("/dashboard");
+    async function handleCreateProfile() {
+        try {
+            await axios.post("http://localhost:5500/user/register", {
+                name,
+                email,
+                password,
+            });
+
+            router.replace("/login");
+        } catch {
+            alert("Usuario já existente");
+        }
     }
 
     return (
@@ -48,39 +49,16 @@ export default function SignUp() {
                         <p>Por favor entre com as suas informações</p>
                     </div>
                     <div className={styles.inputs}>
-                        <input
-                            type="text"
-                            placeholder="Nome"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
-                        />
-                        <input
-                            type="text"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
-                        />
+                        <input type="text" placeholder="Nome" value={name} onChange={(event) => setName(event.target.value)} />
+                        <input type="text" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
                         <div className={styles.password}>
-                            <input
-                                type={inputType}
-                                placeholder="Password"
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)}
-                            />
-                            <button
-                                className={styles.eye_button}
-                                type="button"
-                                onClick={toggleInput}
-                            >
+                            <input type={inputType} placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                            <button className={styles.eye_button} type="button" onClick={toggleInput}>
                                 <PiEye size={24} className={toggle} />
                             </button>
                         </div>
                     </div>
-                    <button
-                        className={styles.signup_button}
-                        type="submit"
-                        disabled={!email || !name || !password}
-                    >
+                    <button className={styles.signup_button} type="submit" disabled={!email || !name || !password}>
                         Cadastrar
                     </button>
                     <div className={styles.login}>

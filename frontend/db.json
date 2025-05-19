@@ -1,18 +1,4 @@
 {
-  "profiles": [
-    {
-      "id": "00fd0066-0bbc-4f89-8695-d2f774e460e1",
-      "name": "wesley",
-      "email": "wesley@gmail.com",
-      "password": "123"
-    },
-    {
-      "id": "aa3da7d9-b88a-43d8-ab5c-dd475824e0f7",
-      "name": "teste",
-      "email": "teste",
-      "password": "123"
-    }
-  ],
   "stock": [
     {
       "id": "627fe093-74c7-4b43-a430-6e734e9d4g34",
