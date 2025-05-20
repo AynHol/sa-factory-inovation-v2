@@ -17,3 +17,15 @@ model User {
 
   @@map("users")
 }
+
+model Stock {
+  id          String   @id
+  name        String   @unique
+  mark        String
+  amount      Int
+  description String
+  createdAt   DateTime
+  updatedAt   DateTime @updatedAt
+
+  @@map("stock")
+}

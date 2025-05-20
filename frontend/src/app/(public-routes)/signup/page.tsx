@@ -32,7 +32,7 @@ export default function SignUp() {
 
             router.replace("/login");
         } catch {
-            alert("Usuario já existente");
+            alert("Usuario Já Existente");
         }
     }
 
