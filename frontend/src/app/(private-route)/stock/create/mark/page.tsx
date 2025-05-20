@@ -2,7 +2,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { Box, Button, Checkbox, Dialog, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
-import { Add, AddBox, CheckCircle, Inventory2, Inventory2Outlined } from "@mui/icons-material";
+import { CheckCircle, Inventory2, Inventory2Outlined } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
@@ -53,24 +53,6 @@ export default function Production() {
         }, 3000);
     }
 
-    const newMark = () => {
-        router.replace("/stock/create/mark");
-    };
-
-    async function handleUpdateStock(event: FormEvent) {
-        event.preventDefault();
-        setIsLoading(true);
-        setButtonStatus(false);
-
-        await axios.patch(`http://localhost:5500/stock/${id}`);
-
-        setIsLoading(false);
-        setSent(true);
-        setTimeout(() => {
-            router.replace("/stock");
-        }, 3000);
-    }
-
     useEffect(() => {
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress == "..." ? "." : prevProgress + "."));
@@ -87,11 +69,6 @@ export default function Production() {
                     <div className={styles.selection}>
                         <h2>Registro no Estoque</h2>
                         <div>
-                            <Tooltip title={"Clique para registrar um novo fabricante"}>
-                                <Button onClick={newMark}>
-                                    <AddBox />
-                                </Button>
-                            </Tooltip>
                             <Tooltip title={!newProduct ? "Clique para mudar para registro de novos produtos" : "Clique para mudar para registro de produtos já existentes"}>
                                 <Checkbox icon={<Inventory2Outlined />} checkedIcon={<Inventory2 />} checked={newProduct} onChange={(e) => setNewProduct(e.target.checked)} />
                             </Tooltip>

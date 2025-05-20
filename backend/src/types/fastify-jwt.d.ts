@@ -1,14 +1,12 @@
 import "fastify";
 import { FastifyReply } from "fastify";
-import { FastifyJWT } from "fastify-jwt"
+import { FastifyJWT } from "fastify-jwt";
 
 declare module "fastify" {
     interface FastifyRequest {
-        user: {
+        mark: {
             id: string;
             name: string;
-            email: string;
-            birthDate: Date;
             createdAt: Date;
             updatedAt: Date;
         };

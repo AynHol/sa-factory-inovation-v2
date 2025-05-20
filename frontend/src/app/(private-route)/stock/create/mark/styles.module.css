@@ -1,0 +1,67 @@
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 88.79vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+.selection {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.selection div {
+    display: flex;
+    align-items: center;
+}
+
+.form h2 {
+    margin-bottom: 10px;
+}
+
+.product {
+    display: flex;
+    padding: 8px;
+    gap: 32px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.div {
+    display: flex;
+    padding: 8px;
+    gap: 32px;
+}
+
+.loading {
+    margin-top: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sent {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1b5e20;
+    font-weight: bold;
+    gap: 4px;
+}

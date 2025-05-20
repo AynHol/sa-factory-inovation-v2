@@ -4,7 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { PiEye } from "react-icons/pi";
 import styles from "./styles.module.css";
 
@@ -30,7 +30,8 @@ export default function Login() {
 
     const router = useRouter();
 
-    async function handleLogin() {
+    async function handleLogin(event: FormEvent) {
+        event.preventDefault();
         try {
             const response = await axios.post<{ access_token: string }>(`http://localhost:5500/user/login`, {
                 email,
