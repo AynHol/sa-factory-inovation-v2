@@ -4,7 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { PiEye } from "react-icons/pi";
 import styles from "./styles.module.css";
 
@@ -22,7 +22,8 @@ export default function SignUp() {
 
     const router = useRouter();
 
-    async function handleCreateProfile() {
+    async function handleCreateProfile(event: FormEvent) {
+        event.preventDefault();
         try {
             await axios.post("http://localhost:5500/user/register", {
                 name,
@@ -30,9 +31,9 @@ export default function SignUp() {
                 password,
             });
 
-            router.replace("/login");
+            router.push("/login");
         } catch {
-            alert("Usuario já existente");
+            alert("Usuario Já Existente");
         }
     }
 

@@ -12,8 +12,33 @@ model User {
   name      String
   email     String   @unique
   password  String
+  devMode   Boolean
+  avatar    String
   createdAt DateTime
   updatedAt DateTime @updatedAt
 
   @@map("users")
+}
+
+model Stock {
+  id          String   @id
+  name        String   @unique
+  amount      Int
+  description String
+  createdAt   DateTime
+  updatedAt   DateTime @updatedAt
+  markId      String
+  mark        Mark     @relation(fields: [markId], references: [id])
+
+  @@map("stock")
+}
+
+model Mark {
+  id        String   @id
+  name      String   @unique
+  createdAt DateTime
+  updatedAt DateTime @updatedAt
+  Stock     Stock[]
+
+  @@map("mark")
 }

@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { userService } from "../service/UserService";
-import { loginSchema, registerSchema } from "../config/schema/auth.schema";
+import { avatarSchema, devSchema, loginSchema, registerSchema } from "../config/schema/auth.schema";
 
 export async function userController(app: FastifyInstance) {
     app.post("/user/register", { schema: registerSchema }, async (request: FastifyRequest, reply: FastifyReply) => {
@@ -23,5 +23,32 @@ export async function userController(app: FastifyInstance) {
         } catch (error: any) {
             return reply.code(401).send({ error: error.messsage });
         }
+    });
+
+    app.patch("/user/:id/dev", { schema: devSchema }, async (request: FastifyRequest, reply: FastifyReply) => {
+        const { id } = request.params as { id: string };
+        try {
+            const dev = await userService.updateDev(id);
+            return reply.code(200).send(dev);
+        } catch (error: any) {
+            return reply.code(404).send({ error: error.messsage });
+        }
+    });
+
+    app.patch("/user/:id/avatar", { schema: avatarSchema }, async (request: FastifyRequest, reply: FastifyReply) => {
+        const { id } = request.params as { id: string };
+        const { avatar } = request.body as { avatar: string };
+        try {
+            const pfp = await userService.updateAvatar(id, avatar);
+            return reply.code(200).send(pfp);
+        } catch (error: any) {
+            return reply.code(404).send({ error: error.messsage });
+        }
+    });
+
+    app.get("/user/:id/avatar", async (request: FastifyRequest, reply: FastifyReply) => {
+        const { id } = request.params as { id: string };
+        const pfp = await userService.getAvatar(id);
+        return reply.code(200).send(pfp);
     });
 }

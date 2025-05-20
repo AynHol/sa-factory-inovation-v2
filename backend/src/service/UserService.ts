@@ -4,7 +4,7 @@ import { compare, hash } from "bcryptjs";
 import { FastifyInstance } from "fastify";
 
 class UserService {
-    public async register({ name, email, password}: CreateUserType): Promise<void> {
+    public async register({ name, email, password }: CreateUserType): Promise<void> {
         const userExist = await prisma.user.findUnique({ where: { email: email } });
         if (userExist) {
             throw new Error("Email Already Registered!");
@@ -16,6 +16,8 @@ class UserService {
             id: crypto.randomUUID(),
             name,
             email,
+            devMode: false,
+            avatar: "https://github.com/Henry18if.png",
             password: passwordHashed,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -41,6 +43,48 @@ class UserService {
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
         });
+    }
+
+    public async updateDev(id: string) {
+        const user = await prisma.user.findUnique({ where: { id } });
+        if (user == null) {
+            throw new Error("User Don't Exist.");
+        }
+
+        const devUpdate = {
+            devMode: !user.devMode,
+            updatedAt: new Date(),
+        };
+
+        return await prisma.user.update({
+            where: { id },
+            data: devUpdate,
+        });
+    }
+
+    public async updateAvatar(id: string, avatar: string) {
+        const user = await prisma.user.findUnique({ where: { id } });
+        if (user == null) {
+            throw new Error("User Don't Exist.");
+        }
+
+        const avatarUpdate = {
+            avatar,
+            updatedAt: new Date(),
+        };
+
+        return await prisma.user.update({
+            where: { id },
+            data: avatarUpdate,
+        });
+    }
+
+    public async getAvatar(id: string) {
+        const user = await prisma.user.findUnique({ where: { id } });
+        if (user == null) {
+            throw new Error("User Don't Exist.");
+        }
+        return user.avatar;
     }
 }
 
