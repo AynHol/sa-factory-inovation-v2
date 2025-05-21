@@ -5,6 +5,8 @@ import { swaggerConfig } from "./config/swaggerConfig";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import authjwt from "./middleware/authjwt";
 import { userController } from "./controller/UserController";
+import { stockController } from "./controller/StockController";
+import { markController } from "./controller/MarkController";
 
 const app = fastify();
 
@@ -14,10 +16,12 @@ app.register(cors, {
 });
 
 app.register(fastifySwagger, swaggerConfig as any);
-app.register(fastifySwaggerUi, { routePrefix: '/docs', uiConfig: { docExpansion: 'list'}})
+app.register(fastifySwaggerUi, { routePrefix: "/docs", uiConfig: { docExpansion: "list" } });
 
-app.register(authjwt)
-app.register(userController)
+app.register(authjwt);
+app.register(userController);
+app.register(stockController);
+app.register(markController);
 
 const PORT = 5500;
 app.listen({ port: PORT }).then(() => {

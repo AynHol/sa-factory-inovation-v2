@@ -16,6 +16,10 @@ class MarkService {
         };
         await prisma.mark.create({ data: mark });
     }
+
+    public async getAll(): Promise<Mark[]> {
+        return await prisma.mark.findMany();
+    }
 }
 
 export const markService = new MarkService();
