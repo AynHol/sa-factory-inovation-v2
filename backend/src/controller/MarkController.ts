@@ -4,7 +4,7 @@ import { markService } from "../service/MarkService";
 export async function markController(app: FastifyInstance) {
     app.addHook("onRequest", app.authenticate);
 
-    app.post("/mark", async (request: FastifyRequest, reply: FastifyReply) => {
+    app.post("/mark/create", async (request: FastifyRequest, reply: FastifyReply) => {
         const { name } = request.body as { name: string };
 
         try {
@@ -13,5 +13,10 @@ export async function markController(app: FastifyInstance) {
         } catch (error: any) {
             return reply.code(409).send({ error: error.messsage });
         }
+    });
+
+    app.get("/mark", async (_, reply: FastifyReply) => {
+        const marks = await markService.getAll();
+        return reply.code(200).send(marks);
     });
 }

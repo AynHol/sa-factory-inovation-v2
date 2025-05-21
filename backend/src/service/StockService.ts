@@ -2,18 +2,22 @@ import { Stock } from "@prisma/client";
 import { prisma } from "../prisma/client";
 
 class StockService {
-    public async create({ name, amount, description }: CreateStockType, markId: string): Promise<void> {
+    public async create({ name, amount, description, markId }: CreateStockType): Promise<void> {
         const productExist = await prisma.stock.findUnique({ where: { name } });
         if (productExist) {
             throw new Error("Product Already Registered!");
+        }
+        const mark = prisma.mark.findUnique({ where: { id: markId } })
+        if (!mark) {
+            throw new Error("Mark Don't Exist!")
         }
 
         const product: Stock = {
             id: crypto.randomUUID(),
             name,
-            markId,
             amount,
             description,
+            markId,
             createdAt: new Date(),
             updatedAt: new Date(),
         };

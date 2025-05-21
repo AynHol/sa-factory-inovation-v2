@@ -7,19 +7,19 @@ import { useRouter } from "next/navigation";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
 
-export default function Production() {
-    const [newProduct, setNewProduct] = useState(false);
+export default function StockCreate() {
     const [progress, setProgress] = useState(".");
+    const [newProduct, setNewProduct] = useState(false);
     const [buttonStatus, setButtonStatus] = useState(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(false);
     const [name, setName] = useState("");
-    const [mark, setMark] = useState("");
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
-    const [product, setProduct] = useState("");
+    const [productId, setProductId] = useState("");
+    const [markId, setMarkId] = useState("");
     const [stock, setStock] = useState<Stock[]>([]);
-    const [id, setId] = useState("");
+    const [mark, setMark] = useState<Mark[]>([]);
 
     const router = useRouter();
 
@@ -28,8 +28,19 @@ export default function Production() {
     }, []);
 
     async function loadItens() {
-        const response = await axios.get("http://localhost:5500/stock");
+        const storedToken = localStorage.getItem("access_token");
+        const response = await axios.get("http://localhost:5500/stock", {
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+            },
+        });
+        const response2 = await axios.get("http://localhost:5500/mark", {
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+            },
+        });
         setStock(response.data);
+        setMark(response2.data);
     }
 
     async function handleCreateStock(event: FormEvent) {
@@ -38,13 +49,17 @@ export default function Production() {
         setButtonStatus(false);
 
         const result = {
-            id: uuid(),
-            name: name,
-            mark: mark,
-            amount: amount,
-            description: description,
+            name,
+            amount: Number(amount),
+            description,
+            markId,
         };
-        await axios.post("http://localhost:5500/stock", result);
+        const storedToken = localStorage.getItem("access_token");
+        await axios.post("http://localhost:5500/stock/create", result, {
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+            },
+        });
 
         setIsLoading(false);
         setSent(true);
@@ -62,7 +77,16 @@ export default function Production() {
         setIsLoading(true);
         setButtonStatus(false);
 
-        await axios.patch(`http://localhost:5500/stock/${id}`);
+        const id = productId
+        const updateStock = {
+            amount: Number(amount),
+        };
+        const storedToken = localStorage.getItem("access_token");
+        await axios.patch(`http://localhost:5500/stock/${id}/amount`, updateStock, {
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+            },
+        });
 
         setIsLoading(false);
         setSent(true);
@@ -103,7 +127,7 @@ export default function Production() {
                             <div className={styles.product}>
                                 <FormControl variant="outlined">
                                     <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o produto</InputLabel>
-                                    <Select label="Produtos" sx={{ width: 200 }} onChange={(event) => setId(event.target.value as string)} value={product}>
+                                    <Select label="Produtos" sx={{ width: 200 }} onChange={(event) => setProductId(event.target.value)} value={productId}>
                                         {stock.map((stock) => (
                                             <MenuItem key={stock.id} value={stock.id}>
                                                 {stock.name}
@@ -114,7 +138,7 @@ export default function Production() {
                                 <TextField label="Quantidade" variant="outlined" type="number" onChange={(event) => setAmount(event.target.value)} value={amount} />
                             </div>
                             <div className={styles.button}>
-                                <Button variant="contained" color="success" disabled={buttonStatus == false}>
+                                <Button variant="contained" color="success" onClick={handleUpdateStock} disabled={buttonStatus == false}>
                                     adicionar
                                 </Button>
                             </div>
@@ -129,9 +153,12 @@ export default function Production() {
                                 <div className={styles.div}>
                                     <FormControl>
                                         <InputLabel>Selecione a Marca</InputLabel>
-                                        <Select label="Selecione a Marca" onChange={(event) => setMark(event.target.value as string)} value={mark} sx={{ width: 223 }}>
-                                            <MenuItem value={10}>Fabricante</MenuItem>
-                                            <MenuItem value={20}>Fabricante 2</MenuItem>
+                                        <Select label="Selecione a Marca" onChange={(event) => setMarkId(event.target.value as string)} value={markId} sx={{ width: 223 }}>
+                                            {mark.map((mark) => (
+                                                <MenuItem key={mark.id} value={mark.id}>
+                                                    {mark.name}
+                                                </MenuItem>
+                                            ))}
                                         </Select>
                                     </FormControl>
                                     <TextField label="Quantidade" variant="outlined" type="number" onChange={(event) => setAmount(event.target.value)} value={amount} />
