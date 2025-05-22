@@ -20,9 +20,9 @@ export async function stockController(app: FastifyInstance) {
 
     app.patch("/stock/:id/amount", async (request: FastifyRequest, reply: FastifyReply) => {
         const { id } = request.params as { id: string };
-        const { amount } = request.body as { amount: number };
+        const { amount, ogAmount } = request.body as { amount: number, ogAmount: number };
         try {
-            const newAmount = await stockService.updateAmount(id, amount);
+            const newAmount = await stockService.updateAmount(id, amount, ogAmount);
             return reply.code(200).send(newAmount);
         } catch (error: any) {
             return reply.code(404).send({ error: error.messsage });

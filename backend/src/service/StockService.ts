@@ -28,9 +28,9 @@ class StockService {
         return await prisma.stock.findMany();
     }
 
-    public async updateAmount(id: string, amount: number) {
+    public async updateAmount(id: string, amount: number, ogAmount: number) {
         const amountUpdate = {
-            amount,
+            amount: ogAmount + amount,
             updatedAt: new Date(),
         };
 

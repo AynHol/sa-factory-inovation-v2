@@ -77,9 +77,15 @@ export default function StockCreate() {
         setIsLoading(true);
         setButtonStatus(false);
 
-        const id = productId
+        const id = productId;
+        const thisStock = stock.find((stock) => stock.id === id);
+        if (thisStock === undefined) {
+            return console.log("Stock não existe");
+        }
+        const ogAmount = thisStock?.amount;
         const updateStock = {
             amount: Number(amount),
+            originalAmount: Number(ogAmount),
         };
         const storedToken = localStorage.getItem("access_token");
         await axios.patch(`http://localhost:5500/stock/${id}/amount`, updateStock, {

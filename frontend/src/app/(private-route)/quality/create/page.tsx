@@ -165,7 +165,6 @@ export default function QualityCreate() {
                                         checkedIcon={<ElectricCar />}
                                         color="success"
                                         onChange={(event) => setEletric(event.target.checked)}
-                                        disabled={buttonStatus == false}
                                     />
                                 }
                                 label="Sistema Eletrônico"
