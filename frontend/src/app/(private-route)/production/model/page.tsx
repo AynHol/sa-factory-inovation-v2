@@ -1,30 +1,30 @@
 "use client";
-import { CheckCircle } from "@mui/icons-material";
-import { Box, Button, LinearProgress, TextField, Typography } from "@mui/material";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import { Box, Button, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { CheckCircle } from "@mui/icons-material";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
-export default function Mark() {
+export default function Production() {
     const [progress, setProgress] = useState(".");
     const [buttonStatus, setButtonStatus] = useState(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(false);
-    const [mark, setMark] = useState("");
+    const [model, setModel] = useState("");
 
     const router = useRouter();
 
-    async function handleCreateMark(event: FormEvent) {
+    async function handleCreateModel(event: FormEvent) {
         event.preventDefault();
         setIsLoading(true);
         setButtonStatus(false);
 
         const result = {
-            name: mark,
+            name: model,
         };
         const storedToken = localStorage.getItem("access_token");
-        await axios.post("http://localhost:5500/mark/create", result, {
+        await axios.post("http://localhost:5500/model/create", result, {
             headers: {
                 Authorization: `Bearer ${storedToken}`,
             },
@@ -33,7 +33,7 @@ export default function Mark() {
         setIsLoading(false);
         setSent(true);
         setTimeout(() => {
-            router.replace("/stock/create");
+            router.replace("/production")
         }, 3000);
     }
 
@@ -49,20 +49,17 @@ export default function Mark() {
     return (
         <div className={styles.body}>
             <div className={styles.container}>
+                <h2>Novo Modelo</h2>
                 <form className={styles.form}>
-                    <div className={styles.selection}>
-                        <h2>Registro de Fabricante</h2>
+                    <div className={styles.content}>
+                        <div className={styles.div}>
+                            <TextField label="Nome do Modelo" variant="outlined" type="string" onChange={(event) => setModel(event.target.value)} value={model} />
+                        </div>
                     </div>
-                    <h2>Fabricante:</h2>
-                    <div>
-                        <div className={styles.product}>
-                            <TextField label="Nome da Fabricante" variant="outlined" type="string" onChange={(event) => setMark(event.target.value)} value={mark} />
-                        </div>
-                        <div className={styles.button}>
-                            <Button variant="contained" color="success" disabled={buttonStatus == false} onClick={handleCreateMark}>
-                                adicionar
-                            </Button>
-                        </div>
+                    <div className={styles.button}>
+                        <Button variant="contained" color="success" onClick={handleCreateModel} disabled={buttonStatus == false}>
+                            Enviar para a Gerência
+                        </Button>
                     </div>
 
                     {isLoading ? (
@@ -72,14 +69,14 @@ export default function Mark() {
                                     <LinearProgress />
                                 </Box>
                                 <Box>
-                                    <Typography sx={{ color: "text.primary", marginTop: 1 }}>Registrando{progress}</Typography>
+                                    <Typography sx={{ color: "text.primary", marginTop: 1 }}>Enviando para a gerência{progress}</Typography>
                                 </Box>
                             </Box>
                         </div>
                     ) : !isLoading && sent ? (
                         <div className={styles.sent}>
                             <CheckCircle color="success" fontSize="large" />
-                            <p>Registrado com Sucesso</p>
+                            <p>Enviado com Sucesso</p>
                         </div>
                     ) : null}
                 </form>
