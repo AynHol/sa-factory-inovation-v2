@@ -20,12 +20,22 @@ export async function stockController(app: FastifyInstance) {
 
     app.patch("/stock/:id/amount", async (request: FastifyRequest, reply: FastifyReply) => {
         const { id } = request.params as { id: string };
-        const { amount, ogAmount } = request.body as { amount: number, ogAmount: number };
+        const { amount } = request.body as { amount: number };
         try {
-            const newAmount = await stockService.updateAmount(id, amount, ogAmount);
+            const newAmount = await stockService.updateAmount(id, amount);
             return reply.code(200).send(newAmount);
         } catch (error: any) {
             return reply.code(404).send({ error: error.messsage });
         }
+    });
+
+    app.get("/stock/engine", async (_, reply: FastifyReply) => {
+        const engine = await stockService.getEngine();
+        return reply.code(200).send(engine);
+    });
+
+    app.get("/stock/tire", async (_, reply: FastifyReply) => {
+        const tire = await stockService.getTire();
+        return reply.code(200).send(tire);
     });
 }

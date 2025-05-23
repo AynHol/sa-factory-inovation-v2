@@ -1,11 +1,10 @@
 "use client";
+import { AddBox, CheckCircle, Inventory2, Inventory2Outlined } from "@mui/icons-material";
+import { Box, Button, Checkbox, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { Box, Button, Checkbox, Dialog, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
-import { Add, AddBox, CheckCircle, Inventory2, Inventory2Outlined } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
-import { v4 as uuid } from "uuid";
-import axios from "axios";
 
 export default function StockCreate() {
     const [progress, setProgress] = useState(".");
@@ -18,6 +17,7 @@ export default function StockCreate() {
     const [description, setDescription] = useState("");
     const [productId, setProductId] = useState("");
     const [markId, setMarkId] = useState("");
+    const [category, setCategory] = useState("");
     const [stock, setStock] = useState<Stock[]>([]);
     const [mark, setMark] = useState<Mark[]>([]);
 
@@ -52,6 +52,7 @@ export default function StockCreate() {
             name,
             amount: Number(amount),
             description,
+            category,
             markId,
         };
         const storedToken = localStorage.getItem("access_token");
@@ -78,14 +79,8 @@ export default function StockCreate() {
         setButtonStatus(false);
 
         const id = productId;
-        const thisStock = stock.find((stock) => stock.id === id);
-        if (thisStock === undefined) {
-            return console.log("Stock não existe");
-        }
-        const ogAmount = thisStock?.amount;
         const updateStock = {
             amount: Number(amount),
-            originalAmount: Number(ogAmount),
         };
         const storedToken = localStorage.getItem("access_token");
         await axios.patch(`http://localhost:5500/stock/${id}/amount`, updateStock, {
@@ -158,8 +153,8 @@ export default function StockCreate() {
                                 </div>
                                 <div className={styles.div}>
                                     <FormControl>
-                                        <InputLabel>Selecione a Marca</InputLabel>
-                                        <Select label="Selecione a Marca" onChange={(event) => setMarkId(event.target.value as string)} value={markId} sx={{ width: 223 }}>
+                                        <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Marca</InputLabel>
+                                        <Select onChange={(event) => setMarkId(event.target.value)} value={markId} sx={{ width: 223 }}>
                                             {mark.map((mark) => (
                                                 <MenuItem key={mark.id} value={mark.id}>
                                                     {mark.name}
@@ -168,6 +163,17 @@ export default function StockCreate() {
                                         </Select>
                                     </FormControl>
                                     <TextField label="Quantidade" variant="outlined" type="number" onChange={(event) => setAmount(event.target.value)} value={amount} />
+                                </div>
+                                <div className={styles.div1}>
+                                    <FormControl>
+                                        <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Categoria</InputLabel>
+                                        <Select onChange={(event) => setCategory(event.target.value)} value={category} sx={{ width: 223 }}>
+                                            <MenuItem value={"tire"}>Pneu</MenuItem>
+                                            <MenuItem value={"engine"}>Motor</MenuItem>
+                                            <MenuItem value={"product"}>Produtos Para Veiculos</MenuItem>
+                                            <MenuItem value={"other"}>Outros</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </div>
                             </div>
                             <div className={styles.button}>

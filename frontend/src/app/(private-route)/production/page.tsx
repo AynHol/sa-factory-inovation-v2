@@ -15,8 +15,12 @@ export default function Production() {
     const [airbag, setAirbag] = useState<boolean>(false);
     const [eletric, setEletric] = useState<boolean>(false);
     const [gear, setGear] = useState<boolean>(false);
-    const [modelId, setModelId] = useState("");
-    const [model, setModel] = useState<Model[]>([]);
+    const [model, setModel] = useState("");
+    const [engine, setEngine] = useState("");
+    const [tire, setTire] = useState("");
+    const [gEngine, setGEngine] = useState<Stock[]>([]);
+    const [gTire, setGTire] = useState<Stock[]>([]);
+    const [production, setProduction] = useState<Production[]>([]);
 
     const router = useRouter();
 
@@ -26,12 +30,18 @@ export default function Production() {
 
     async function loadItens() {
         const storedToken = localStorage.getItem("access_token");
-        const response = await axios.get("http://localhost:5500/model", {
+        const response = await axios.get("http://localhost:5500/stock/engine", {
             headers: {
                 Authorization: `Bearer ${storedToken}`,
             },
         });
-        setModel(response.data);
+        const response2 = await axios.get("http://localhost:5500/stock/tire", {
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+            },
+        });
+        setGEngine(response.data);
+        setGTire(response2.data);
     }
 
     function handleSubmit() {
@@ -46,10 +56,6 @@ export default function Production() {
         }, 3000);
     }
 
-    const newModel = () => {
-        router.replace("/production/model");
-    };
-
     useEffect(() => {
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress == "..." ? "." : prevProgress + "."));
@@ -62,34 +68,21 @@ export default function Production() {
     return (
         <div className={styles.body}>
             <div className={styles.container}>
-                <div className={styles.selection}>
-                    <h2>Novo Veículo</h2>
-                    <Tooltip title={"Clique para registrar um novo modelo"}>
-                        <Button onClick={newModel}>
-                            <AddBox />
-                        </Button>
-                    </Tooltip>
-                </div>
+                <h2>Novo Veículo</h2>
                 <form className={styles.form}>
                     <div className={styles.content}>
-                        <div className={`${styles.div} ${styles.div1}`}>
-                            <FormControl sx={{ width: 200 }}>
-                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o Modelo</InputLabel>
-                                <Select onChange={(event) => setModelId(event.target.value)} value={modelId}>
-                                    {model.map((model) => (
-                                        <MenuItem key={model.id} value={model.id}>
-                                            {model.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
+                        <div className={styles.div}>
+                            <FormControl>
+                                <TextField label="Nome do Modelo" variant="outlined" type="string" onChange={(event) => setModel(event.target.value)} value={model} />
                             </FormControl>
                             <FormControl sx={{ width: 200 }}>
-                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Cor</InputLabel>
-                                <Select>
-                                    <MenuItem value={"Preto"}>Preto</MenuItem>
-                                    <MenuItem value={"Vermelho"}>Vermelho</MenuItem>
-                                    <MenuItem value={"Branco"}>Branco</MenuItem>
-                                    <MenuItem value={"Prata"}>Prata</MenuItem>
+                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o Motor</InputLabel>
+                                <Select onChange={(event) => setEngine(event.target.value)} value={engine}>
+                                    {gEngine.map((gEngine) => (
+                                        <MenuItem key={gEngine.id} value={gEngine.id}>
+                                            {gEngine.name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </div>
@@ -103,12 +96,41 @@ export default function Production() {
                                 </Select>
                             </FormControl>
                         </div>
+                        <div className={styles.div}>
+                            <FormControl sx={{ width: 223 }}>
+                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Cor</InputLabel>
+                                <Select>
+                                    <MenuItem value={"Preto"}>Preto</MenuItem>
+                                    <MenuItem value={"Vermelho"}>Vermelho</MenuItem>
+                                    <MenuItem value={"Branco"}>Branco</MenuItem>
+                                    <MenuItem value={"Prata"}>Prata</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl sx={{ width: 240 }}>
+                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o Tipo de Pneu</InputLabel>
+                                <Select onChange={(event) => setTire(event.target.value)} value={tire}>
+                                    {gTire.map((gTire) => (
+                                        <MenuItem key={gTire.id} value={gTire.id}>
+                                            {gTire.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <div className={styles.div}>
+                            <FormControl sx={{ width: 310 }}>
+                                <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Quantidade de AirBags</InputLabel>
+                                <Select>
+                                    <MenuItem value={2}>2</MenuItem>
+                                    <MenuItem value={4}>4</MenuItem>
+                                    <MenuItem value={6}>6</MenuItem>
+                                    <MenuItem value={7}>7</MenuItem>
+                                    <MenuItem value={8}>8</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
                         <div>
-                            <FormGroup sx={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
-                                <FormControlLabel
-                                    control={<Checkbox icon={<Air />} checkedIcon={<Air />} color="primary" onChange={(event) => setAirbag(event.target.checked)} />}
-                                    label={airbag === false ? "Sem Airbag" : "Com Airbag"}
-                                />
+                            <FormGroup sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
                                 <FormControlLabel
                                     control={<Checkbox icon={<Computer />} checkedIcon={<Computer />} color="primary" onChange={(event) => setEletric(event.target.checked)} />}
                                     label={eletric === false ? "Sem Computador de Bordo" : "Com Computador de Bordo"}
