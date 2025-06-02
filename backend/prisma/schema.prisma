@@ -21,14 +21,16 @@ model User {
 }
 
 model Stock {
-  id          String   @id
-  name        String   @unique
-  amount      Int
-  description String
-  createdAt   DateTime
-  updatedAt   DateTime @updatedAt
-  markId      String
-  mark        Mark     @relation(fields: [markId], references: [id])
+  id              String            @id
+  name            String            @unique
+  amount          Int
+  description     String
+  category        String
+  createdAt       DateTime
+  updatedAt       DateTime          @updatedAt
+  markId          String
+  mark            Mark              @relation(fields: [markId], references: [id])
+  StockProduction StockProduction[]
 
   @@map("stock")
 }
@@ -41,4 +43,54 @@ model Mark {
   Stock     Stock[]
 
   @@map("mark")
+}
+
+model StockProduction {
+  stockId      String
+  productionId String
+
+  stock      Stock      @relation(fields: [stockId], references: [id])
+  production Production @relation(fields: [productionId], references: [id])
+
+  @@id([stockId, productionId])
+  @@map("stock_production")
+}
+
+model Production {
+  id              String            @id
+  model           String
+  amount          Int
+  door            Int
+  colour          String
+  airbag          Int
+  pc              Boolean
+  gear            Boolean
+  createdAt       DateTime
+  updatedAt       DateTime          @updatedAt
+  StockProduction StockProduction[]
+  Quality         Quality[]
+
+  @@map("production")
+}
+
+model Quality {
+  id           String     @id
+  car          String
+  door         Boolean?
+  engine       Boolean?
+  chassi       Boolean?
+  tire         Boolean?
+  window       Boolean?
+  ligh         Boolean?
+  seat         Boolean?
+  airbag       Boolean?
+  extra        Boolean?
+  eletric      Boolean?
+  aproval      Boolean?
+  createdAt    DateTime
+  updatedAt    DateTime
+  productionId String
+  production   Production @relation(fields: [productionId], references: [id])
+
+  @@map("quality")
 }
