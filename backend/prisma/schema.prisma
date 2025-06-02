@@ -59,17 +59,38 @@ model StockProduction {
 model Production {
   id              String            @id
   model           String
-  engineId        String
   amount          Int
   door            Int
   colour          String
-  tireId          String
   airbag          Int
   pc              Boolean
   gear            Boolean
   createdAt       DateTime
   updatedAt       DateTime          @updatedAt
   StockProduction StockProduction[]
+  Quality         Quality[]
 
   @@map("production")
+}
+
+model Quality {
+  id           String     @id
+  car          String
+  door         Boolean?
+  engine       Boolean?
+  chassi       Boolean?
+  tire         Boolean?
+  window       Boolean?
+  ligh         Boolean?
+  seat         Boolean?
+  airbag       Boolean?
+  extra        Boolean?
+  eletric      Boolean?
+  aproval      Boolean?
+  createdAt    DateTime
+  updatedAt    DateTime
+  productionId String
+  production   Production @relation(fields: [productionId], references: [id])
+
+  @@map("quality")
 }

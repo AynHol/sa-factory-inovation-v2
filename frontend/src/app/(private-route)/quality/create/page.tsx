@@ -43,8 +43,23 @@ export default function QualityCreate() {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(false);
+    const [model, setModel] = useState<Production[]>([]);
 
     const router = useRouter();
+
+    useEffect(() => {
+        loadItens();
+    }, []);
+
+    async function loadItens() {
+        const storedToken = localStorage.getItem("access_token");
+        const response = await axios.get("http://localhost:5500/quality", {
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+            },
+        });
+        setModel(response.data);
+    }
 
     async function handleCreateQAStatus(event: FormEvent) {
         event.preventDefault();
@@ -160,12 +175,7 @@ export default function QualityCreate() {
                             />
                             <FormControlLabel
                                 control={
-                                    <Checkbox
-                                        icon={<ElectricCarOutlined />}
-                                        checkedIcon={<ElectricCar />}
-                                        color="success"
-                                        onChange={(event) => setEletric(event.target.checked)}
-                                    />
+                                    <Checkbox icon={<ElectricCarOutlined />} checkedIcon={<ElectricCar />} color="success" onChange={(event) => setEletric(event.target.checked)} />
                                 }
                                 label="Sistema Eletrônico"
                             />

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, LinearProgress, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
 import { AddBox, Air, CheckCircle, Computer, HdrAutoOutlined } from "@mui/icons-material";
@@ -12,12 +12,15 @@ export default function Production() {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(false);
-    const [airbag, setAirbag] = useState<boolean>(false);
+    const [airbag, setAirbag] = useState("");
     const [eletric, setEletric] = useState<boolean>(false);
     const [gear, setGear] = useState<boolean>(false);
     const [model, setModel] = useState("");
     const [engine, setEngine] = useState("");
     const [tire, setTire] = useState("");
+    const [door, setDoor] = useState("");
+    const [colour, setColour] = useState("");
+    const [amount, setAmount] = useState("");
     const [gEngine, setGEngine] = useState<Stock[]>([]);
     const [gTire, setGTire] = useState<Stock[]>([]);
     const [production, setProduction] = useState<Production[]>([]);
@@ -44,16 +47,38 @@ export default function Production() {
         setGTire(response2.data);
     }
 
-    function handleSubmit() {
+    async function handleSubmit(event: FormEvent) {
+        event.preventDefault();
+
         setIsLoading(true);
         setButtonStatus(false);
 
+        const newProduction = {
+            model,
+            engineId: engine,
+            amount: Number(amount),
+            door,
+            colour,
+            tireId: tire,
+            airbag,
+            pc: eletric,
+            gear,
+        };
+        const storedToken = localStorage.getItem("access_token");
+        await axios.post("http://localhost:5500/production/create", newProduction, {
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+            },
+        });
+
         setIsLoading(false);
-        setSent(true);
         setTimeout(() => {
-            setSent(false);
-            setButtonStatus(true);
-        }, 3000);
+            setSent(true);
+            setTimeout(() => {
+                setSent(false);
+                setButtonStatus(true);
+            }, 3000);
+        }, 4000);
     }
 
     useEffect(() => {
@@ -87,10 +112,10 @@ export default function Production() {
                             </FormControl>
                         </div>
                         <div className={styles.div}>
-                            <TextField label="Quantidade" variant="outlined" type="number" />
+                            <TextField label="Quantidade" variant="outlined" type="number" onChange={(event) => setAmount(event.target.value)} value={amount} />
                             <FormControl sx={{ width: 300 }}>
                                 <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Quantidade de Portas</InputLabel>
-                                <Select>
+                                <Select onChange={(event) => setDoor(event.target.value)} value={door}>
                                     <MenuItem value={2}>2</MenuItem>
                                     <MenuItem value={4}>4</MenuItem>
                                 </Select>
@@ -99,7 +124,7 @@ export default function Production() {
                         <div className={styles.div}>
                             <FormControl sx={{ width: 223 }}>
                                 <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Cor</InputLabel>
-                                <Select>
+                                <Select onChange={(event) => setColour(event.target.value)} value={colour}>
                                     <MenuItem value={"Preto"}>Preto</MenuItem>
                                     <MenuItem value={"Vermelho"}>Vermelho</MenuItem>
                                     <MenuItem value={"Branco"}>Branco</MenuItem>
@@ -120,7 +145,7 @@ export default function Production() {
                         <div className={styles.div}>
                             <FormControl sx={{ width: 310 }}>
                                 <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione a Quantidade de AirBags</InputLabel>
-                                <Select>
+                                <Select onChange={(event) => setAirbag(event.target.value)} value={airbag}>
                                     <MenuItem value={2}>2</MenuItem>
                                     <MenuItem value={4}>4</MenuItem>
                                     <MenuItem value={6}>6</MenuItem>
