@@ -27,7 +27,6 @@ import { FormEvent, useEffect, useState } from "react";
 import styles from "./styles.module.css";
 
 export default function QualityCreate() {
-    const [car, setCar] = useState<string>("");
     const [door, setDoor] = useState<boolean>(false);
     const [engine, setEngine] = useState<boolean>(false);
     const [chassi, setChassi] = useState<boolean>(false);

@@ -9,7 +9,6 @@ import { FormEvent, useEffect, useState } from "react";
 export default function QualityResult() {
     const [quality, setQuality] = useState<Quality>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [approval, setApproval] = useState<boolean>(false);
 
     const router = useRouter();
 
@@ -84,7 +83,7 @@ export default function QualityResult() {
                         </Box>
                     </Box>
 
-                    {approval ? (
+                    {quality?.aproval ? (
                         <p>
                             Resultado: <span className={styles.statusA}>Aprovado</span>
                         </p>

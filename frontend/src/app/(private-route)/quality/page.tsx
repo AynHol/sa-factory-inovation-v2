@@ -43,12 +43,13 @@ export default function Quality() {
 
     async function loadItens() {
         const storedToken = localStorage.getItem("access_token");
-        const response = await axios.get(`http://localhost:5500/quality/all}`, {
+        const response = await axios.get(`http://localhost:5500/quality/all`, {
             headers: {
                 Authorization: `Bearer ${storedToken}`,
             },
         });
         setQuality(response.data);
+        console.log(response.data)
 
         const Aprovado = quality.filter((approval) => approval.aproval === true);
         setAprovado(Aprovado.length);
