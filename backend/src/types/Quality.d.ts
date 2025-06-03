@@ -12,4 +12,5 @@ type QualityRequest = {
     eletric: boolean;
     aproval?: boolean;
     number?: number;
+    resume?: number;
 };
