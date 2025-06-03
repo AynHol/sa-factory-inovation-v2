@@ -57,10 +57,10 @@ export default function Production() {
             model,
             engineId: engine,
             amount: Number(amount),
-            door,
+            door: Number(door),
             colour,
             tireId: tire,
-            airbag,
+            airbag: Number(airbag),
             pc: eletric,
             gear,
         };

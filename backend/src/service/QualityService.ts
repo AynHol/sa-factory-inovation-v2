@@ -1,13 +1,17 @@
+import { Quality } from "@prisma/client";
 import { prisma } from "../prisma/client";
 
 class QualityService {
-    public async create(id: string, data: QualityRequest): Promise<void> {
-        const available = await prisma.quality.findUnique({ where: { id } });
-        if (!available) {
-            throw new Error("Avaliação não existe...")
+    public async create(carId: string, data: QualityRequest): Promise<void> {
+        const car = await prisma.production.findUnique({ where: { id: carId } });
+        if (!car) {
+            throw new Error("Car not found");
         }
 
-        const updatedQuality = {
+        const quality: Quality = {
+            id: crypto.randomUUID(),
+            productionId: car.id,
+            car: car.model,
             door: data.door,
             engine: data.engine,
             chassi: data.chassi,
@@ -18,10 +22,13 @@ class QualityService {
             airbag: data.airbag,
             extra: data.extra,
             eletric: data.eletric,
-            updatedAt: new Date()
-        }
+            aproval: null,
+            number: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        };
 
-        await prisma.quality.update({ where: { id }, data: updatedQuality })
+        await prisma.quality.create({ data: quality });
     }
 }
 
