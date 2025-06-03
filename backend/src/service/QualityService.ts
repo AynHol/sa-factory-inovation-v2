@@ -1,5 +1,6 @@
 import { Quality } from "@prisma/client";
 import { prisma } from "../prisma/client";
+import { aQuality, calculateQuality, resumeQuality } from "../util/calculateQuality";
 
 class QualityService {
     public async create(carId: string, data: QualityRequest): Promise<void> {
@@ -7,6 +8,10 @@ class QualityService {
         if (!car) {
             throw new Error("Car not found");
         }
+
+        const number = calculateQuality(data);
+        const resume = resumeQuality(data);
+        const aproval = aQuality(data);
 
         const quality: Quality = {
             id: crypto.randomUUID(),
@@ -22,13 +27,27 @@ class QualityService {
             airbag: data.airbag,
             extra: data.extra,
             eletric: data.eletric,
-            aproval: null,
-            number: null,
+            aproval,
+            number,
+            resume,
             createdAt: new Date(),
             updatedAt: new Date(),
         };
 
         await prisma.quality.create({ data: quality });
+    }
+
+    public async getResult(id: string) {
+        const result = await prisma.quality.findUnique({ where: { id } });
+        if (result == null) {
+            throw new Error("QA Don't Exist.");
+        }
+        return result;
+    }
+
+    public async getAll() {
+        const result = await prisma.quality.findMany();
+        return result;
     }
 }
 

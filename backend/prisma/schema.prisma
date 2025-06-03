@@ -88,6 +88,7 @@ model Quality {
   eletric      Boolean
   aproval      Boolean?
   number       Int?
+  resume       Int?
   createdAt    DateTime
   updatedAt    DateTime
   productionId String
