@@ -17,7 +17,7 @@ class ProductionService {
 
         const enoughProducts = engine.amount < amount && tire.amount < 5 * amount;
         if (enoughProducts) {
-            throw new Error("Não existe produtos suficientes para essa quantidade de modelos");
+            throw new Error("There are not enough products for this number of vehicles");
         }
 
         const car: Production = {
@@ -33,28 +33,8 @@ class ProductionService {
             updatedAt: new Date(),
         };
 
-        const quality: Quality = {
-            id: crypto.randomUUID(),
-            productionId: car.id,
-            car: car.model,
-            door: null,
-            engine: null,
-            chassi: null,
-            tire: null,
-            window: null,
-            ligh: null,
-            seat: null,
-            airbag: null,
-            extra: null,
-            eletric: null,
-            aproval: null,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        };
-
         await prisma.$transaction([
             prisma.production.create({ data: car }),
-            prisma.quality.create({ data: quality }),
             prisma.stockProduction.createMany({
                 data: [
                     { productionId: car.id, stockId: engineId },
@@ -66,8 +46,20 @@ class ProductionService {
         ]);
     }
 
-    public async getAll(): Promise<Production[]> {
-        return await prisma.production.findMany();
+    public async getNoQuality(): Promise<Production[]> {
+        return await prisma.production.findMany({
+            include: {
+                Quality: false,
+            },
+        });
+    }
+
+    public async getCar(id: string) {
+        const car = await prisma.production.findUnique({ where: { id } });
+        if (car == null) {
+            throw new Error("Vehicle Don't Exist.");
+        }
+        return car.model;
     }
 }
 

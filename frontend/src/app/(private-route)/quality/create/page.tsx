@@ -1,6 +1,4 @@
 "use client";
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, LinearProgress, MenuItem, Select, Typography } from "@mui/material";
-import styles from "./styles.module.css";
 import {
     AddCircle,
     AddCircleOutline,
@@ -22,10 +20,11 @@ import {
     Window,
     WindowOutlined,
 } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, LinearProgress, MenuItem, Select, Typography } from "@mui/material";
 import axios from "axios";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
+import styles from "./styles.module.css";
 
 export default function QualityCreate() {
     const [car, setCar] = useState<string>("");
@@ -43,7 +42,7 @@ export default function QualityCreate() {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(false);
-    const [model, setModel] = useState<Production[]>([]);
+    const [model, setModel] = useState<string>("");
 
     const router = useRouter();
 
@@ -51,9 +50,10 @@ export default function QualityCreate() {
         loadItens();
     }, []);
 
+    const id = useSearchParams().get("id");
     async function loadItens() {
         const storedToken = localStorage.getItem("access_token");
-        const response = await axios.get("http://localhost:5500/quality", {
+        const response = await axios.get(`http://localhost:5500/production/${id}/car`, {
             headers: {
                 Authorization: `Bearer ${storedToken}`,
             },
@@ -67,25 +67,29 @@ export default function QualityCreate() {
         setButtonStatus(false);
 
         const result = {
-            id: uuid(),
-            car: car,
+            carId: id,
             door: door,
             engine: engine,
             chassi: chassi,
             tire: tire,
             window: window,
-            light: light,
+            ligh: light,
             seat: seat,
             airbag: airbag,
             extra: extra,
             eletric: eletric,
         };
-        await axios.post("http://localhost:5500/qastatus", result);
+        const storedToken = localStorage.getItem("access_token");
+        await axios.post("http://localhost:5500/quality/create", result, {
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+            },
+        });
 
         setIsLoading(false);
         setSent(true);
         setTimeout(() => {
-            router.replace(`/quality/result?id=${result.id}`);
+            router.replace(`/quality/result?id=${id}`);
         }, 3000);
     }
 
@@ -103,13 +107,7 @@ export default function QualityCreate() {
             <div className={styles.container}>
                 <h1>Quality Create</h1>
                 <div className={styles.selectVehicle}>
-                    <FormControl fullWidth>
-                        <InputLabel sx={{ backgroundColor: "#fff" }}>Selecione o veiculo</InputLabel>
-                        <Select label="Veiculos" onChange={(event) => setCar(event.target.value as string)} value={car}>
-                            <MenuItem value={"Uno"}>Uno</MenuItem>
-                            <MenuItem value={"Gol"}>Gol</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <h3>Veiculo: {model}</h3>
                 </div>
                 <p>Marque os componentes que passaram nos testes</p>
                 <div className={styles.checkbox}>

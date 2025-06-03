@@ -76,17 +76,18 @@ model Production {
 model Quality {
   id           String     @id
   car          String
-  door         Boolean?
-  engine       Boolean?
-  chassi       Boolean?
-  tire         Boolean?
-  window       Boolean?
-  ligh         Boolean?
-  seat         Boolean?
-  airbag       Boolean?
-  extra        Boolean?
-  eletric      Boolean?
+  door         Boolean
+  engine       Boolean
+  chassi       Boolean
+  tire         Boolean
+  window       Boolean
+  ligh         Boolean
+  seat         Boolean
+  airbag       Boolean
+  extra        Boolean
+  eletric      Boolean
   aproval      Boolean?
+  number       Int?
   createdAt    DateTime
   updatedAt    DateTime
   productionId String

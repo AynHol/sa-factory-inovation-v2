@@ -1,14 +1,15 @@
 type QualityRequest = {
     car: String;
-    door: Boolean;
-    engine: Boolean;
-    chassi: Boolean;
-    tire: Boolean;
-    window: Boolean;
-    ligh: Boolean;
-    seat: Boolean;
-    airbag: Boolean;
-    extra: Boolean;
-    eletric: Boolean;
-    aproval?: Boolean;
+    door: boolean;
+    engine: boolean;
+    chassi: boolean;
+    tire: boolean;
+    window: boolean;
+    ligh: boolean;
+    seat: boolean;
+    airbag: boolean;
+    extra: boolean;
+    eletric: boolean;
+    aproval?: boolean;
+    number?: number;
 };
