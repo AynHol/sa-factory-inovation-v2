@@ -20,6 +20,10 @@ class MarkService {
     public async getAll(): Promise<Mark[]> {
         return await prisma.mark.findMany();
     }
+
+    public async getMark(id: string) {
+        return await prisma.mark.findUnique({ where: { id } });
+    }
 }
 
 export const markService = new MarkService();

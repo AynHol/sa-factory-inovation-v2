@@ -19,4 +19,10 @@ export async function markController(app: FastifyInstance) {
         const marks = await markService.getAll();
         return reply.code(200).send(marks);
     });
+
+    app.get("/mark/:id/mark", async (request: FastifyRequest, reply: FastifyReply) => {
+        const { id } = request.params as { id: string };
+        const marks = await markService.getMark(id);
+        return reply.code(200).send(marks);
+    });
 }

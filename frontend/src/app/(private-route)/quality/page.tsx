@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Quality() {
-    const [quality, setQuality] = useState<Quality[]>([]);
     const [aprovado, setAprovado] = useState<number>(0);
     const [reprovado, setReprovado] = useState<number>(0);
     const [doorAprovado, setDoorAprovado] = useState<number>(0);
@@ -43,70 +42,69 @@ export default function Quality() {
 
     async function loadItens() {
         const storedToken = localStorage.getItem("access_token");
-        const response = await axios.get(`http://localhost:5500/quality/all`, {
+        const response = await axios.get("http://localhost:5500/quality/all", {
             headers: {
                 Authorization: `Bearer ${storedToken}`,
             },
         });
-        setQuality(response.data);
-        console.log(response.data)
+        const qualidade = response.data;
 
-        const Aprovado = quality.filter((approval) => approval.aproval === true);
+        const Aprovado = qualidade.filter((approval: Quality) => approval.aproval === true);
         setAprovado(Aprovado.length);
-        const Reprovado = quality.filter((approval) => approval.aproval === false);
+        const Reprovado = qualidade.filter((approval: Quality) => approval.aproval === false);
         setReprovado(Reprovado.length);
 
-        const DoorAprovado = quality.filter((approval) => approval.door === true);
+        const DoorAprovado = qualidade.filter((approval: Quality) => approval.door === true);
         setDoorAprovado(DoorAprovado.length);
-        const DoorReprovado = quality.filter((approval) => approval.door === false);
+        const DoorReprovado = qualidade.filter((approval: Quality) => approval.door === false);
         setDoorReprovado(DoorReprovado.length);
 
-        const EngineAprovado = quality.filter((approval) => approval.engine === true);
+        const EngineAprovado = qualidade.filter((approval: Quality) => approval.engine === true);
         setEngineAprovado(EngineAprovado.length);
-        const EngineReprovado = quality.filter((approval) => approval.engine === false);
+        const EngineReprovado = qualidade.filter((approval: Quality) => approval.engine === false);
         setEngineReprovado(EngineReprovado.length);
 
-        const ChassiAprovado = quality.filter((approval) => approval.chassi === true);
+        const ChassiAprovado = qualidade.filter((approval: Quality) => approval.chassi === true);
         setChassiAprovado(ChassiAprovado.length);
-        const ChassiReprovado = quality.filter((approval) => approval.chassi === false);
+        const ChassiReprovado = qualidade.filter((approval: Quality) => approval.chassi === false);
         setChassiReprovado(ChassiReprovado.length);
 
-        const TireAprovado = quality.filter((approval) => approval.tire === true);
+        const TireAprovado = qualidade.filter((approval: Quality) => approval.tire === true);
         setTireAprovado(TireAprovado.length);
-        const TireReprovado = quality.filter((approval) => approval.tire === false);
+        const TireReprovado = qualidade.filter((approval: Quality) => approval.tire === false);
         setTireReprovado(TireReprovado.length);
 
-        const WindowAprovado = quality.filter((approval) => approval.window === true);
+        const WindowAprovado = qualidade.filter((approval: Quality) => approval.window === true);
         setWindowAprovado(WindowAprovado.length);
-        const WindowReprovado = quality.filter((approval) => approval.window === false);
+        const WindowReprovado = qualidade.filter((approval: Quality) => approval.window === false);
         setWindowReprovado(WindowReprovado.length);
 
-        const LightAprovado = quality.filter((approval) => approval.ligh === true);
+        const LightAprovado = qualidade.filter((approval: Quality) => approval.ligh === true);
         setLightAprovado(LightAprovado.length);
-        const LightReprovado = quality.filter((approval) => approval.ligh === false);
+        const LightReprovado = qualidade.filter((approval: Quality) => approval.ligh === false);
         setLightReprovado(LightReprovado.length);
 
-        const SeatAprovado = quality.filter((approval) => approval.seat === true);
+        const SeatAprovado = qualidade.filter((approval: Quality) => approval.seat === true);
         setSeatAprovado(SeatAprovado.length);
-        const SeatReprovado = quality.filter((approval) => approval.seat === false);
+        const SeatReprovado = qualidade.filter((approval: Quality) => approval.seat === false);
         setSeatReprovado(SeatReprovado.length);
 
-        const AirbagAprovado = quality.filter((approval) => approval.airbag === true);
+        const AirbagAprovado = qualidade.filter((approval: Quality) => approval.airbag === true);
         setAirbagAprovado(AirbagAprovado.length);
-        const AirbagReprovado = quality.filter((approval) => approval.airbag === false);
+        const AirbagReprovado = qualidade.filter((approval: Quality) => approval.airbag === false);
         setAirbagReprovado(AirbagReprovado.length);
 
-        const ExtraAprovado = quality.filter((approval) => approval.extra === true);
+        const ExtraAprovado = qualidade.filter((approval: Quality) => approval.extra === true);
         setExtraAprovado(ExtraAprovado.length);
-        const ExtraReprovado = quality.filter((approval) => approval.extra === false);
+        const ExtraReprovado = qualidade.filter((approval: Quality) => approval.extra === false);
         setExtraReprovado(ExtraReprovado.length);
 
-        const EletricAprovado = quality.filter((approval) => approval.eletric === true);
+        const EletricAprovado = qualidade.filter((approval: Quality) => approval.eletric === true);
         setEletricAprovado(EletricAprovado.length);
-        const EletricReprovado = quality.filter((approval) => approval.eletric === false);
+        const EletricReprovado = qualidade.filter((approval: Quality) => approval.eletric === false);
         setEletricReprovado(EletricReprovado.length);
 
-        setCarNum(quality.length);
+        setCarNum(qualidade.length);
     }
 
     const list = () => {
