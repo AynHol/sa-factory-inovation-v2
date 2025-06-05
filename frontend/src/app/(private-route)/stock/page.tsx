@@ -11,28 +11,31 @@ const columns: GridColDef<any[number]>[] = [
         field: "name",
         headerName: "Nome",
         width: 150,
+        resizable: false,
     },
     {
-        field: "Mark",
+        field: "markName",
         headerName: "Marca",
+        resizable: false,
     },
     {
         field: "amount",
         headerName: "Quantidade",
         type: "number",
         align: "center",
+        resizable: false,
     },
     {
         field: "description",
         headerName: "Descrição",
         width: 500,
         sortable: false,
+        resizable: false,
     },
 ];
 
 export default function Stock() {
-    const [stock, setStock] = useState<Stock[]>([]);
-    const [mark, setMark] = useState<Mark[]>([]);
+    const [stock, setStock] = useState<any[]>([]);
 
     const router = useRouter();
 
@@ -47,13 +50,11 @@ export default function Stock() {
                 Authorization: `Bearer ${storedToken}`,
             },
         });
-        setStock(response.data);
-        const response2 = await axios.get(`http://localhost:5500/mark/`, {
-            headers: {
-                Authorization: `Bearer ${storedToken}`,
-            },
-        });
-        setMark(response2.data)
+        const markName = response.data.map((item: any) => ({
+            ...item,
+            markName: item.mark?.name || "",
+        }));
+        setStock(markName);
     }
 
     const pageCreateStock = () => {

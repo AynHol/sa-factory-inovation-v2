@@ -72,12 +72,19 @@ export default function Production() {
         });
 
         setIsLoading(false);
+        setSent(true);
         setTimeout(() => {
-            setSent(true);
-            setTimeout(() => {
-                setSent(false);
-                setButtonStatus(true);
-            }, 3000);
+            setModel("");
+            setEngine("");
+            setAmount("");
+            setDoor("");
+            setColour("");
+            setTire("");
+            setAirbag("");
+            setEletric(false);
+            setGear(false);
+            setSent(false);
+            setButtonStatus(true);
         }, 4000);
     }
 
@@ -157,7 +164,15 @@ export default function Production() {
                         <div>
                             <FormGroup sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
                                 <FormControlLabel
-                                    control={<Checkbox icon={<Computer />} checkedIcon={<Computer />} color="primary" onChange={(event) => setEletric(event.target.checked)} />}
+                                    control={
+                                        <Checkbox
+                                            icon={<Computer />}
+                                            checkedIcon={<Computer />}
+                                            color="primary"
+                                            checked={eletric}
+                                            onChange={(event) => setEletric(event.target.checked)}
+                                        />
+                                    }
                                     label={eletric === false ? "Sem Computador de Bordo" : "Com Computador de Bordo"}
                                 />
                                 <FormControlLabel
@@ -166,6 +181,7 @@ export default function Production() {
                                             icon={<TbManualGearbox size={25} />}
                                             checkedIcon={<TbAutomaticGearbox size={25} />}
                                             color="primary"
+                                            checked={gear}
                                             onChange={(event) => setGear(event.target.checked)}
                                         />
                                     }
