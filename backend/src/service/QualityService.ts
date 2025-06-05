@@ -38,7 +38,7 @@ class QualityService {
     }
 
     public async getResult(id: string) {
-        const result = await prisma.quality.findUnique({ where: { id } });
+        const result = await prisma.quality.findUnique({ where: { productionId: id } });
         if (result == null) {
             throw new Error("QA Don't Exist.");
         }

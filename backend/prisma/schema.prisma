@@ -91,7 +91,7 @@ model Quality {
   resume       Int?
   createdAt    DateTime
   updatedAt    DateTime
-  productionId String
+  productionId String     @unique
   production   Production @relation(fields: [productionId], references: [id])
 
   @@map("quality")

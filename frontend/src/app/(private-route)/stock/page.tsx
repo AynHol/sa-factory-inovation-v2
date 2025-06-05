@@ -1,21 +1,19 @@
 "use client";
-import styles from "./styles.module.css";
-import { useRouter } from "next/navigation";
-import { v4 as uuid } from "uuid";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { PiPlus } from "react-icons/pi";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { PiPlus } from "react-icons/pi";
+import styles from "./styles.module.css";
 
 const columns: GridColDef<any[number]>[] = [
-    { field: "position", headerName: "Posição", align: "center", width: 70 },
     {
         field: "name",
         headerName: "Nome",
         width: 150,
     },
     {
-        field: "marca",
+        field: "Mark",
         headerName: "Marca",
     },
     {
@@ -34,6 +32,7 @@ const columns: GridColDef<any[number]>[] = [
 
 export default function Stock() {
     const [stock, setStock] = useState<Stock[]>([]);
+    const [mark, setMark] = useState<Mark[]>([]);
 
     const router = useRouter();
 
@@ -49,6 +48,12 @@ export default function Stock() {
             },
         });
         setStock(response.data);
+        const response2 = await axios.get(`http://localhost:5500/mark/`, {
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+            },
+        });
+        setMark(response2.data)
     }
 
     const pageCreateStock = () => {
