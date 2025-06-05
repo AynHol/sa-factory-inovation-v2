@@ -9,6 +9,7 @@ import { stockController } from "./controller/StockController";
 import { markController } from "./controller/MarkController";
 import { productionController } from "./controller/ProductionController";
 import { qualityController } from "./controller/QualityController";
+import { maintenanceController } from "./controller/MaintenanceController";
 
 const app = fastify();
 
@@ -26,6 +27,7 @@ app.register(stockController);
 app.register(markController);
 app.register(productionController);
 app.register(qualityController);
+app.register(maintenanceController);
 
 const PORT = 5500;
 app.listen({ port: PORT }).then(() => {

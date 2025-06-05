@@ -1,4 +1,5 @@
 type Quality = {
+    id: string;
     car: String;
     door: boolean;
     engine: boolean;

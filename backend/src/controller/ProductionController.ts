@@ -31,4 +31,13 @@ export async function productionController(app: FastifyInstance) {
             return reply.code(400).send({ erro: error.message });
         }
     });
+
+    app.get("/production", async (_: FastifyRequest, reply: FastifyReply) => {
+        try {
+            const marks = await productionService.getAll();
+            return reply.code(200).send(marks);
+        } catch (error: any) {
+            return reply.code(400).send({ erro: error.message });
+        }
+    });
 }

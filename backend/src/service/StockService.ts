@@ -25,8 +25,16 @@ class StockService {
         await prisma.stock.create({ data: product });
     }
 
-    public async getAll(): Promise<Stock[]> {
-        return await prisma.stock.findMany();
+    public async getAll() {
+        return await prisma.stock.findMany({
+            include: {
+                mark: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
+        });
     }
 
     public async updateAmount(id: string, amount: number) {

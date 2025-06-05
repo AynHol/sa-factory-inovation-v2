@@ -74,7 +74,7 @@ model Production {
 }
 
 model Quality {
-  id           String     @id
+  id           String        @id
   car          String
   door         Boolean
   engine       Boolean
@@ -91,8 +91,19 @@ model Quality {
   resume       Int?
   createdAt    DateTime
   updatedAt    DateTime
-  productionId String     @unique
-  production   Production @relation(fields: [productionId], references: [id])
+  productionId String        @unique
+  production   Production    @relation(fields: [productionId], references: [id])
+  Maintenance  Maintenance[]
 
   @@map("quality")
+}
+
+model Maintenance {
+  id        String   @id
+  car       Quality  @relation(fields: [qualityId], references: [id])
+  createdAt DateTime
+  updatedAr DateTime
+  qualityId String
+
+  @@map("maintenance")
 }

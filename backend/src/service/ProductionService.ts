@@ -46,10 +46,15 @@ class ProductionService {
         ]);
     }
 
-    public async getNoQuality(): Promise<Production[]> {
+    public async getNoQuality() {
         return await prisma.production.findMany({
+            where: {
+                Quality: {
+                    none: {},
+                },
+            },
             include: {
-                Quality: false,
+                Quality: true,
             },
         });
     }
@@ -60,6 +65,10 @@ class ProductionService {
             throw new Error("Vehicle Don't Exist.");
         }
         return car.model;
+    }
+
+    public async getAll() {
+        return await prisma.production.findMany();
     }
 }
 
